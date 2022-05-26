@@ -1,4 +1,4 @@
-package com.avbravo.mongodbatlasdriver.resources;
+package com.avbravo.mongodbatlasdriver.controller;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoClient;
