@@ -27,9 +27,41 @@ GET     /openapi/application.wadl
 
 ```
 
-Dssde el navegador
+## Desde el navegador
 Obtener todos los documentos
 http://localhost:8080/api/country/
 
 Buscar por idcountry=PA
 http://localhost:8080/api/country/PA
+
+
+
+## Shell
+
+```
+curl --location --request GET 'http://localhost:8080/api/country'
+
+curl --location --request GET 'http://localhost:8080/api/country/PA'
+
+
+curl --location --request POST 'http://localhost:8080/products/' \
+--header 'Content-Type: application/json' \
+--data-raw '{"id": 1, "name": "banana", "description": "a fruit", "rating": 5}'
+
+curl --location --request POST 'http://localhost:8080/products/' \
+--header 'Content-Type: application/json' \
+--data-raw '{"id": 2, "name": "watermelon", "description": "watermelon sugar ahh", "rating": 4}'
+
+
+
+```
+
+## Metrics
+```
+http://localhost:8002/metrics
+
+http://localhost:8002/api/metric/increment
+
+http://localhost:8002/api/metric/timed
+
+```

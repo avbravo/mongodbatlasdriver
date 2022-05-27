@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.avbravo.mongodbatlasdriver.repository;
+package com.avbravo.mongodbatlasdriver.repository.implementations;
 
 import com.avbravo.mongodbatlasdriver.model.Country;
+import com.avbravo.mongodbatlasdriver.repository.CountryRepository;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -84,6 +85,16 @@ public class CountryRepositoryImpl implements CountryRepository {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public Country save(Country country) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void deleteById(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
