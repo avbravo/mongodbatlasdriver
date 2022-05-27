@@ -8,10 +8,12 @@ import com.avbravo.mongodbatlasdriver.model.Country;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
@@ -26,51 +28,62 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
  */
 @ApplicationScoped
 //@Stateless
-public class CountryRepositoryImpl implements CountryRepository{
-   @Inject
-    private Config config;
+public class CountryRepositoryImpl implements CountryRepository {
 
+    @Inject
+    private Config config;
 
     @Inject
     @ConfigProperty(name = "mongodb.uri")
     private String mongodburi;
-    @Inject
-    @ConfigProperty(name = "testconnection")
-    private Boolean testconnection;
-    
+
+
     @Inject
     MongoClient mongoClient;
-    
-   @Override
-     public List<Country> findAll() {
-         System.out.println("[    CountryRepository    ]");
+
+    @Override
+    public List<Country> findAll() {
+
         List<Country> list = new ArrayList<>();
         try {
-                //MongoClient mongoClient = MongoClients.create(mongodburi);
-
 
             MongoDatabase database = mongoClient.getDatabase("autentification");
-            System.out.println("[...> paso 2...");
+     
             MongoCollection<Document> collection = database.getCollection("country");
-            System.out.println("[...> paso 3...");
-            if (collection == null) {
-                System.out.println("[---> collection is null.....");
-            } else {
-                System.out.println("[---contando documentos");
-                System.out.println("[collection.countDocuments() " + collection.countDocuments());
-            }
-            Document doc = collection.find(eq("idcountry", "PA")).first();
-            System.out.println("[...> paso 4...");
 
+            MongoCursor<Document> cursor = collection.find().iterator();
             Jsonb jsonb = JsonbBuilder.create();
-            Country country = jsonb.fromJson(doc.toJson(), Country.class);
-            System.out.println("[...> paso 5...");
-            list.add(country);
+            try {
+                while (cursor.hasNext()) {
+                    Country country = jsonb.fromJson(cursor.next().toJson(), Country.class);
+                    list.add(country);
+                }
+            } finally {
+                cursor.close();
+            }
+
         } catch (Exception e) {
-            System.out.println("gCountryController.et() " + e.getLocalizedMessage());
+            System.out.println("findAll() " + e.getLocalizedMessage());
         }
 
         return list;
     }
-    
+
+    @Override
+    public Optional<Country> findById(String id) {
+
+        try {
+            MongoDatabase database = mongoClient.getDatabase("autentification");
+            MongoCollection<Document> collection = database.getCollection("country");
+            Document doc = collection.find(eq("idcountry", id)).first();
+            Jsonb jsonb = JsonbBuilder.create();
+            Country country = jsonb.fromJson(doc.toJson(), Country.class);
+            return Optional.of(country);
+        } catch (Exception e) {
+            System.out.println("findById() " + e.getLocalizedMessage());
+        }
+
+        return Optional.empty();
+    }
+
 }

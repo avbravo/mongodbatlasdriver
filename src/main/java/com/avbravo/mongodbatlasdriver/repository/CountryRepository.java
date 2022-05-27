@@ -6,6 +6,7 @@ package com.avbravo.mongodbatlasdriver.repository;
 
 import com.avbravo.mongodbatlasdriver.model.Country;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -13,4 +14,5 @@ import java.util.List;
  */
 public interface CountryRepository {
     public List<Country> findAll();
+    public Optional<Country> findById(String id);
 }

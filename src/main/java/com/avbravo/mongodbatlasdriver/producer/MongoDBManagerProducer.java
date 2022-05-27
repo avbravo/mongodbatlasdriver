@@ -12,7 +12,7 @@ import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
-public class DocumentManagerProducer implements Serializable {
+public class MongoDBManagerProducer implements Serializable {
 
     @Inject
     private Config config;
@@ -22,35 +22,14 @@ public class DocumentManagerProducer implements Serializable {
     @Inject
     @ConfigProperty(name = "testconnection")
     private Boolean testconnection;
-    MongoClient mongoClient;
+//    MongoClient mongoClient;
 
     @Produces
     @ApplicationScoped
     public MongoClient mongoClient() {
-        if (mongoClient == null) {
+
             MongoClient mongoClient = MongoClients.create(mongodburi);
             System.out.println("@Produces :{Connected successfully to server.}");
-        }
-
-        if (testconnection) {
-//                        MongoDatabase database = mongoClient.getDatabase("autentification");
-//                   
-//                    MongoCollection<Document> collection = database.getCollection("user");
-//                   
-//                    Document doc = collection.find(eq("username", "aristides.villarreal")).first();
-//                   
-//                    System.out.println(doc.toJson());
-
-//                               List<Document> databases = mongoClient.listDatabases().into(new ArrayList<>());
-//            databases.forEach(db -> System.out.println(db.toJson()));
-//            
-        }
-//                   
-
-//                } catch (MongoException me) {
-//                    System.err.println("An error occurred while attempting to run a command: " + me);
-//                }
-        this.mongoClient = mongoClient;
         return mongoClient;
 
     }
