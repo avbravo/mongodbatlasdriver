@@ -66,6 +66,14 @@ public class CountryController {
 
 
     
+    @GET
+    @Path("/findall")
+    @Produces(MediaType.APPLICATION_JSON)
+
+    public List<Country> findAll() {
+        return countryRepository.findAll();
+    }
+    
      @GET
     @Path("{id}")
     @Operation(summary = "Find a country by id", description = "Find a country by id")
