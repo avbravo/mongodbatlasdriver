@@ -15,6 +15,7 @@ import java.util.Optional;
 public interface CountryRepository {
     public List<Country> findAll();
     public Optional<Country> findById(String id);
+    public List<Country> findByCountry(String contry);
     public Country save(Country country);
     public void deleteById(String id);
 }

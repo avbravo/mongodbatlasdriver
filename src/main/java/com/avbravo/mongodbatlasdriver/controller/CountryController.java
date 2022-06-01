@@ -5,6 +5,7 @@
 package com.avbravo.mongodbatlasdriver.controller;
 
 import com.avbravo.mongodbatlasdriver.model.Country;
+import com.avbravo.mongodbatlasdriver.repository.CountryRepository;
 import com.avbravo.mongodbatlasdriver.repository.implementations.CountryRepositoryImpl;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +42,7 @@ public class CountryController {
  private static final Supplier<WebApplicationException> NOT_FOUND =
             () -> new WebApplicationException(Response.Status.NOT_FOUND);
     @Inject
-    CountryRepositoryImpl countryRepository;
+    CountryRepository countryRepository;
 
     // <editor-fold defaultstate="collapsed" desc="@GET">
     @GET

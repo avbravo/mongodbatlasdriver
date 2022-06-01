@@ -37,8 +37,7 @@ public class CountryRepositoryImpl implements CountryRepository {
     @Inject
     @ConfigProperty(name = "mongodb.uri")
     private String mongodburi;
-
-
+ 
     @Inject
     MongoClient mongoClient;
 
@@ -94,6 +93,11 @@ public class CountryRepositoryImpl implements CountryRepository {
 
     @Override
     public void deleteById(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Country> findByCountry(String contry) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

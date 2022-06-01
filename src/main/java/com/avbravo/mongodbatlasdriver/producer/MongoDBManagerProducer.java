@@ -22,8 +22,11 @@ public class MongoDBManagerProducer implements Serializable {
     @Inject
     @ConfigProperty(name = "testconnection")
     private Boolean testconnection;
-//    MongoClient mongoClient;
 
+    
+
+    
+    
     @Produces
     @ApplicationScoped
     public MongoClient mongoClient() {
