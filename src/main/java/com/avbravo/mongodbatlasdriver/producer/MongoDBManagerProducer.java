@@ -24,8 +24,6 @@ public class MongoDBManagerProducer implements Serializable {
     private Boolean testconnection;
 
     
-
-    
     
     @Produces
     @ApplicationScoped
