@@ -4,8 +4,11 @@
  */
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
-import com.avbravo.mongodbatlasdriver.model.Country;
-import com.avbravo.mongodbatlasdriver.repository.CountryRepository;
+import com.avbravo.mongodbatlasdriver.model.Pais;
+import com.avbravo.mongodbatlasdriver.repository.PaisRepository;
+import com.avbravo.mongodbatlasdriver.repository.PaisRepository;
+import com.avbravo.mongodbatlasdriver.repository.PaisRepository;
+import com.avbravo.mongodbatlasdriver.supplier.PaisSupplier;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -29,7 +32,9 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
  */
 @ApplicationScoped
 //@Stateless
-public class CountryRepositoryImpl implements CountryRepository {
+public class PaisRepositoryImpl implements PaisRepository {
+
+    // <editor-fold defaultstate="collapsed" desc="metodo">
 
     @Inject
     private Config config;
@@ -40,23 +45,26 @@ public class CountryRepositoryImpl implements CountryRepository {
  
     @Inject
     MongoClient mongoClient;
-
+// </editor-fold>
     @Override
-    public List<Country> findAll() {
+    public List<Pais> findAll() {
 
-        List<Country> list = new ArrayList<>();
+        List<Pais> list = new ArrayList<>();
         try {
 
-            MongoDatabase database = mongoClient.getDatabase("autentification");
+            MongoDatabase database = mongoClient.getDatabase("world");
      
-            MongoCollection<Document> collection = database.getCollection("country");
+            MongoCollection<Document> collection = database.getCollection("pais");
 
             MongoCursor<Document> cursor = collection.find().iterator();
+            
             Jsonb jsonb = JsonbBuilder.create();
             try {
                 while (cursor.hasNext()) {
-                    Country country = jsonb.fromJson(cursor.next().toJson(), Country.class);
-                    list.add(country);
+                    Pais pais = PaisSupplier.get(Pais::new,cursor.next());
+                    
+//                    Pais pais = jsonb.fromJson(cursor.next().toJson(), Pais.class);
+                    list.add(pais);
                 }
             } finally {
                 cursor.close();
@@ -70,15 +78,17 @@ public class CountryRepositoryImpl implements CountryRepository {
     }
 
     @Override
-    public Optional<Country> findById(String id) {
+    public Optional<Pais> findById(String id) {
 
         try {
-            MongoDatabase database = mongoClient.getDatabase("autentification");
-            MongoCollection<Document> collection = database.getCollection("country");
-            Document doc = collection.find(eq("idcountry", id)).first();
-            Jsonb jsonb = JsonbBuilder.create();
-            Country country = jsonb.fromJson(doc.toJson(), Country.class);
-            return Optional.of(country);
+            MongoDatabase database = mongoClient.getDatabase("world");
+            MongoCollection<Document> collection = database.getCollection("pais");
+            Document doc = collection.find(eq("idpais", id)).first();
+            
+              Pais pais = PaisSupplier.get(Pais::new,doc);
+//            Jsonb jsonb = JsonbBuilder.create();
+//            Pais pais = jsonb.fromJson(doc.toJson(), Pais.class);
+            return Optional.of(pais);
         } catch (Exception e) {
             System.out.println("findById() " + e.getLocalizedMessage());
         }
@@ -87,7 +97,7 @@ public class CountryRepositoryImpl implements CountryRepository {
     }
 
     @Override
-    public Country save(Country country) {
+    public Pais save(Pais pais) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -97,7 +107,7 @@ public class CountryRepositoryImpl implements CountryRepository {
     }
 
     @Override
-    public List<Country> findByCountry(String contry) {
+    public List<Pais> findByPais(String contry) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
