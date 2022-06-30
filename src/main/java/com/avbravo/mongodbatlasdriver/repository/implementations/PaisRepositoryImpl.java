@@ -51,19 +51,13 @@ public class PaisRepositoryImpl implements PaisRepository {
 
         List<Pais> list = new ArrayList<>();
         try {
-
-            MongoDatabase database = mongoClient.getDatabase("world");
-     
+            MongoDatabase database = mongoClient.getDatabase("world");    
             MongoCollection<Document> collection = database.getCollection("pais");
-
             MongoCursor<Document> cursor = collection.find().iterator();
             
-            Jsonb jsonb = JsonbBuilder.create();
             try {
                 while (cursor.hasNext()) {
                     Pais pais = PaisSupplier.get(Pais::new,cursor.next());
-                    
-//                    Pais pais = jsonb.fromJson(cursor.next().toJson(), Pais.class);
                     list.add(pais);
                 }
             } finally {
@@ -73,7 +67,6 @@ public class PaisRepositoryImpl implements PaisRepository {
         } catch (Exception e) {
             System.out.println("findAll() " + e.getLocalizedMessage());
         }
-
         return list;
     }
 

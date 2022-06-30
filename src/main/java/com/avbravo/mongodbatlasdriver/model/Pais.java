@@ -7,6 +7,7 @@ package com.avbravo.mongodbatlasdriver.model;
 import com.avbravo.jmoordb.core.annotation.Embedded;
 import com.avbravo.jmoordb.core.annotation.Entity;
 import com.avbravo.jmoordb.core.annotation.Id;
+import com.avbravo.jmoordb.core.annotation.Referenced;
 import java.util.List;
 
 /**
@@ -24,8 +25,8 @@ public class Pais {
     
     @Embedded
     private List<Musica> musica;
-//    @Referenced(collection = "planeta",field = "idplaneta",repository = "")
-//    private Planeta planeta;
+    @Referenced(collection = "planeta",field = "idplaneta",repository = "")
+    private Planeta planeta;
 
     public Pais() {
     }

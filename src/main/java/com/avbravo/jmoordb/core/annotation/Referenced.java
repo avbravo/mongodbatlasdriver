@@ -15,6 +15,7 @@ import java.lang.annotation.Target;
 public @interface Referenced {
  String collection();
  String field();
+ String database() default "";
  String javatype() default "String";
  String repository();
  boolean lazy() default false;
