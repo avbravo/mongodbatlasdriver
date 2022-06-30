@@ -13,30 +13,31 @@ import com.avbravo.jmoordb.core.annotation.DocumentEmbeddable;
  * @author avbravo
  */
 @DocumentEmbeddable
-public class Idioma {
+public class Musica {
 
-   private String ididioma;
-   private String idioma;
+   private String idmusica;
+   private String musica;
 
-    public Idioma() {
+    public Musica() {
     }
 
-    public String getIdidioma() {
-        return ididioma;
+    public String getIdmusica() {
+        return idmusica;
     }
 
-    public void setIdidioma(String ididioma) {
-        this.ididioma = ididioma;
+    public void setIdmusica(String idmusica) {
+        this.idmusica = idmusica;
     }
 
-    public String getIdioma() {
-        return idioma;
+    public String getMusica() {
+        return musica;
     }
 
-    public void setIdioma(String idioma) {
-        this.idioma = idioma;
+    public void setMusica(String musica) {
+        this.musica = musica;
     }
-   
+
+    
    
     
 }

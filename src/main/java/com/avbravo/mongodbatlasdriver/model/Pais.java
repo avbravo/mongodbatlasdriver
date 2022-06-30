@@ -7,8 +7,7 @@ package com.avbravo.mongodbatlasdriver.model;
 import com.avbravo.jmoordb.core.annotation.Embedded;
 import com.avbravo.jmoordb.core.annotation.Entity;
 import com.avbravo.jmoordb.core.annotation.Id;
-
-
+import java.util.List;
 
 /**
  *
@@ -16,11 +15,15 @@ import com.avbravo.jmoordb.core.annotation.Id;
  */
 @Entity
 public class Pais {
+
     @Id
     private String idpais;
     private String pais;
     @Embedded
     private Idioma idioma;
+    
+    @Embedded
+    private List<Musica> musica;
 //    @Referenced(collection = "planeta",field = "idplaneta",repository = "")
 //    private Planeta planeta;
 
@@ -42,8 +45,6 @@ public class Pais {
     public void setPais(String pais) {
         this.pais = pais;
     }
-    
-    
 
 //    public Planeta getPlaneta() {
 //        return planeta;
@@ -52,7 +53,6 @@ public class Pais {
 //    public void setPlaneta(Planeta planeta) {
 //        this.planeta = planeta;
 //    }
-
     public Idioma getIdioma() {
         return idioma;
     }
@@ -61,7 +61,14 @@ public class Pais {
         this.idioma = idioma;
     }
 
-    
+    public List<Musica> getMusica() {
+        return musica;
+    }
+
+    public void setMusica(List<Musica> musica) {
+        this.musica = musica;
+    }
+
     
     
 }
