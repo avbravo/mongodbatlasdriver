@@ -5,6 +5,7 @@
 package com.avbravo.mongodbatlasdriver.repository;
 
 import com.avbravo.jmoordb.core.annotation.Query;
+import com.avbravo.jmoordb.core.annotation.Repository;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
 import java.util.List;
 import java.util.Optional;
@@ -13,11 +14,12 @@ import java.util.Optional;
  *
  * @author avbravo
  */
-public interface PlanetaRepository {
+@Repository(entity = Planeta.class,jakarta = false)
+public interface PlanetaRepository {            
     @Query(value="select * from planeta")
-    public List<Planeta> findAll();
+    public List<Planeta> findAll();    
     @Query(value="select * from planeta where idplaneta = :id")
-    public Optional<Planeta> findById(String id);
+    public Optional<Planeta> findById(String id);    
     @Query(value="select * from planeta where planeta = :planeta")
     public List<Planeta> findByPlaneta(String planeta);
     public Planeta save(Planeta planeta);

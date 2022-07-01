@@ -4,9 +4,9 @@
  */
 package com.avbravo.mongodbatlasdriver.model;
 
+import com.avbravo.jmoordb.core.annotation.Column;
 import com.avbravo.jmoordb.core.annotation.Entity;
 import com.avbravo.jmoordb.core.annotation.Id;
-import org.bson.types.ObjectId;
 
 
 
@@ -16,22 +16,16 @@ import org.bson.types.ObjectId;
  */
 @Entity
 public class Planeta {
-//     ObjectId objectId = new ObjectId(stringId);
-     ObjectId _id;
+    
     @Id
     private String idplaneta;
+    @Column
       private String planeta;
 
     public Planeta() {
     }
 
-    public ObjectId getId() {
-        return _id;
-    }
-
-    public void setId(ObjectId _id) {
-        this._id = _id;
-    }
+    
   
 
     

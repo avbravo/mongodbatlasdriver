@@ -5,6 +5,7 @@
 package com.avbravo.mongodbatlasdriver.repository;
 
 import com.avbravo.jmoordb.core.annotation.Query;
+import com.avbravo.jmoordb.core.annotation.Repository;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import java.util.Optional;
  *
  * @author avbravo
  */
+@Repository(entity = Pais.class, jakarta = false)
 public interface PaisRepository {
     @Query("select * from pais")
     public List<Pais> findAll();

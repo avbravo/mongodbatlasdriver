@@ -25,7 +25,7 @@ public class Pais {
     
     @Embedded
     private List<Musica> musica;
-    @Referenced(collection = "planeta",field = "idplaneta",repository = "")
+    @Referenced(from = "planeta",localField = "planeta.idplaneta",foreignField = "idplaneta",as ="planeta")
     private Planeta planeta;
 
     public Pais() {
@@ -68,6 +68,14 @@ public class Pais {
 
     public void setMusica(List<Musica> musica) {
         this.musica = musica;
+    }
+
+    public Planeta getPlaneta() {
+        return planeta;
+    }
+
+    public void setPlaneta(Planeta planeta) {
+        this.planeta = planeta;
     }
 
     

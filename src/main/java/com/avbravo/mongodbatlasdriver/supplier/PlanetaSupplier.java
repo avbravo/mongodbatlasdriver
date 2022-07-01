@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.supplier;
 
+import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Country;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
 import com.mongodb.client.FindIterable;
@@ -32,6 +33,9 @@ public class PlanetaSupplier {
     public static Planeta get(Supplier<? extends Planeta> s, Document document) {
         Planeta planeta = s.get();
         try {
+            Test.box("PlanetaSupplier.get()");
+            Test.msg("document.toJson() "+document.toJson());
+        
             Jsonb jsonb = JsonbBuilder.create();
             planeta = jsonb.fromJson(document.toJson(), Planeta.class);
         } catch (Exception e) {

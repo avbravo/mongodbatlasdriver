@@ -42,6 +42,9 @@ public class PlanetaRepositoryImpl implements PlanetaRepository {
     @Inject
     MongoClient mongoClient;
 // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="List<Planeta> findAll()">
+
     @Override
     public List<Planeta> findAll() {
 
@@ -70,7 +73,7 @@ public class PlanetaRepositoryImpl implements PlanetaRepository {
 
         return list;
     }
-
+// </editor-fold>
     @Override
     public Optional<Planeta> findById(String id) {
 
