@@ -6,19 +6,19 @@ package com.avbravo.mongodbatlasdriver.repository.implementations;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
+import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
 import com.avbravo.mongodbatlasdriver.repository.PaisRepository;
 import com.avbravo.mongodbatlasdriver.supplier.PaisSupplier;
+import com.avbravo.mongodbatlasdriver.supplier.lookup.OceanoLookupSupplier;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.PlanetaLookupSupplier;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import static com.mongodb.client.model.Aggregates.lookup;
 import static com.mongodb.client.model.Filters.eq;
 import java.lang.annotation.Annotation;
-import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -109,7 +109,7 @@ public class PaisRepositoryImpl implements PaisRepository {
                     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
             };
-            
+
             Referenced oceanoReferenced = new Referenced() {
                 @Override
                 public String from() {
@@ -118,7 +118,7 @@ public class PaisRepositoryImpl implements PaisRepository {
 
                 @Override
                 public String localField() {
-                    return "oceano.idoceno";
+                    return "oceano.idoceano";
                 }
 
                 @Override
@@ -141,21 +141,32 @@ public class PaisRepositoryImpl implements PaisRepository {
                     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
             };
-            
-            Test.box(" Invocando PlanetaLookupSupplier");
+
             List<Bson> lookup = new ArrayList<>();
+
+            Test.box(" Invocando PlanetaLookupSupplier");
             List<Bson> pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced);
-            
-            
-           
+
             if (pipelinePlaneta.isEmpty() || pipelinePlaneta.size() == 0) {
-                    Test.msg("pipeLinePlaneta.isEmpty()");
+                Test.msg("pipeLinePlaneta.isEmpty()");
             } else {
-              
-                for (Bson b : pipelinePlaneta) {
-//                    Test.msgTab("add b"+b.toString());
+                pipelinePlaneta.forEach(b -> {
                     lookup.add(b);
-                }
+                });
+            }
+
+            /*
+            Invocando OceanoLookup
+             */
+            Test.box(" Invocando OceanoLookupSupplier");
+            List<Bson> pipelineOceano = OceanoLookupSupplier.get(Oceano::new, oceanoReferenced);
+
+            if (pipelineOceano.isEmpty() || pipelineOceano.size() == 0) {
+                Test.msg("pipeLineOceano.isEmpty()");
+            } else {
+                pipelineOceano.forEach(b -> {
+                    lookup.add(b);
+                });
             }
 
             /**
@@ -163,13 +174,15 @@ public class PaisRepositoryImpl implements PaisRepository {
              */
             MongoCursor<Document> cursor;
             if (lookup.isEmpty() || lookup.size() == 0) {
-                
-                        Test.msgTab("[execute find().]");
-                 cursor = collection.find().iterator();
-           
+
+                Test.msgTab("[execute find().]");
+                cursor = collection.find().iterator();
+
             } else {
-        Test.msgTab("execute aggregate");
-                    cursor = collection.aggregate(lookup).iterator();
+                Test.msgTab("execute aggregate");
+                Test.msgTab("lookup "+lookup);
+                
+                cursor = collection.aggregate(lookup).iterator();
             }
 
             try {

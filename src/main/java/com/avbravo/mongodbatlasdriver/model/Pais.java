@@ -27,7 +27,11 @@ public class Pais {
     private List<Musica> musica;
     @Referenced(from = "planeta",localField = "planeta.idplaneta",foreignField = "idplaneta",as ="planeta")
     private Planeta planeta;
+    @Referenced(from = "oceano",localField = "oceano.idoceano",foreignField = "idoceano",as ="oceano")
+    private List<Oceano> oceano;
 
+    
+    
     public Pais() {
     }
 
@@ -76,6 +80,14 @@ public class Pais {
 
     public void setPlaneta(Planeta planeta) {
         this.planeta = planeta;
+    }
+
+    public List<Oceano> getOceano() {
+        return oceano;
+    }
+
+    public void setOceano(List<Oceano> oceano) {
+        this.oceano = oceano;
     }
 
     

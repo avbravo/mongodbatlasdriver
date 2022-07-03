@@ -7,6 +7,7 @@ package com.avbravo.mongodbatlasdriver.supplier;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Idioma;
 import com.avbravo.mongodbatlasdriver.model.Musica;
+import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
 import java.util.ArrayList;
@@ -26,11 +27,12 @@ public class PaisSupplier {
     public static Pais get(Supplier<? extends Pais> s, Document document) {
         Pais pais = s.get();
         try {
-            Test.box("PaisSupplier");
-            Test.msg("PaisSupplier.Document " + document.toJson());
-
             pais.setIdpais(String.valueOf(document.get("idpais")));
             pais.setPais(String.valueOf(document.get("pais")));
+            
+            /**
+             * No es entidad final
+             */
 
             /**
              * ---------------------------------------------
@@ -70,10 +72,10 @@ public class PaisSupplier {
          */
     
             // (if simple )
-            Boolean isSimple = true;
+            Boolean isSimplePlaneta = true;
             List<Document> docPlanetaList = (List<Document>) document.get("planeta");
             Document docPlaneta;
-            if (isSimple) {
+            if (isSimplePlaneta) {
 
                 if (docPlanetaList.isEmpty() || docPlanetaList.size() == 0) {
                     Test.warning("No hay registros de planetas");
@@ -88,16 +90,56 @@ public class PaisSupplier {
                  * Lista de Referenciados
                  * Recorre cada elemento y lo carga en un List<Entidad>
                  * Luego lo asigna al atributo de la entidad superior
-                 * Ejemplo de Implementación
-                  List<Planeta> planetaList = new ArrayList<>();
-                   for(Document varDoc:docPlanetaList){                       
-                       planetaList.add(PlanetaSupplier.get(Planeta::new, varDoc));
-                   }
-                   pais.setPlaneta(planetaList);
+                 * Ejemplo de Implementación                
                  */
+                
+//                 List<Planeta> planetaList = new ArrayList<>();
+//                 if (docPlanetaList.isEmpty() || docPlanetaList.size() == 0) {
+//                    Test.warning("No hay registros de  planeta");
+//                } else {
+//                     docPlanetaList.forEach(varDoc -> {
+//                         planetaList.add(PlanetaSupplier.get(Planeta::new, varDoc));
+//                    });
+//                 }
+//                pais.setPlaneta(planetaList);
+                
+            }
+            
+            /***
+             * Oceano
+             */
+             Boolean isSimpleOceano = false;
+            List<Document> docOceanoList = (List<Document>) document.get("oceano");
+            Document docOceano;
+            if (isSimpleOceano) {
+
+//                if (docOceanoList.isEmpty() || docOceanoList.size() == 0) {
+//                    Test.warning("No hay registros de oceano");
+//                } else {
+//                    docOceano = docOceanoList.get(0);
+//                    pais.setOceano(OceanoSupplier.get(Oceano::new, docOceano));
+//                    Test.msgTab("docOceano obtenido:" + docOceano);
+//                }
+
+            } else {
+                /**
+                 * Lista de Referenciados
+                 * Recorre cada elemento y lo carga en un List<Entidad>
+                 * Luego lo asigna al atributo de la entidad superior
+                 */
+                List<Oceano> oceanoList = new ArrayList<>();
+                 if (docOceanoList.isEmpty() || docOceanoList.size() == 0) {
+                    Test.warning("No hay registros de oceano");
+                } else {
+                     docOceanoList.forEach(varDoc -> {
+                         oceanoList.add(OceanoSupplier.get(Oceano::new, varDoc));
+                    });
+                 }
+                pais.setOceano(oceanoList);
                
                 
             }
+            
 
         } catch (Exception e) {
             System.out.println("PaisSupplier.get() " + e.getLocalizedMessage());

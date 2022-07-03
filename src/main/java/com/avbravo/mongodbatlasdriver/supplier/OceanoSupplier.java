@@ -4,7 +4,11 @@
  */
 package com.avbravo.mongodbatlasdriver.supplier;
 
-import com.avbravo.mongodbatlasdriver.model.Planeta;
+import com.avbravo.jmoordb.core.util.Test;
+import com.avbravo.mongodbatlasdriver.model.Country;
+import com.avbravo.mongodbatlasdriver.model.Oceano;
+import com.mongodb.client.FindIterable;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -14,8 +18,8 @@ import org.bson.Document;
  *
  * @author avbravo
  */
-public class PlanetaSupplier {
-// <editor-fold defaultstate="collapsed" desc="Planeta get(Supplier<? extends Planeta> s, Document document)">
+public class OceanoSupplier {
+// <editor-fold defaultstate="collapsed" desc="Oceano get(Supplier<? extends Oceano> s, Document document)">
 
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
@@ -26,18 +30,18 @@ public class PlanetaSupplier {
      * @return
      */
 
-    public static Planeta get(Supplier<? extends Planeta> s, Document document) {
-        Planeta planeta = s.get();
+    public static Oceano get(Supplier<? extends Oceano> s, Document document) {
+        Oceano oceano = s.get();
         try {
 /**
  * Es una entidad final
  */      
             Jsonb jsonb = JsonbBuilder.create();
-            planeta = jsonb.fromJson(document.toJson(), Planeta.class);
+            oceano = jsonb.fromJson(document.toJson(), Oceano.class);
         } catch (Exception e) {
-            System.out.println("PlanetaSupplier.get() " + e.getLocalizedMessage());
+            System.out.println("OceanoSupplier.get() " + e.getLocalizedMessage());
         }
-        return planeta;
+        return oceano;
 
     }
 // </editor-fold>
