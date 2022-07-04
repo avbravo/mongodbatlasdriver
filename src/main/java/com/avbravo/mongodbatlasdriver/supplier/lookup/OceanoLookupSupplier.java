@@ -34,12 +34,11 @@ public class OceanoLookupSupplier {
         try {
             pipeline = lookup(referenced.from(), referenced.localField(), referenced.foreignField(),  referenced.as());
             list.add(pipeline);
-            /**
-             * Analiza la entidad y verifica si tiene mas referenced y los busca
-             * y los agrega al pipeline
-             *
-             */
-
+      
+/**
+ * 
+ * Cada supplier debe verificar las clases @Referenciadas e invocar la superior
+ */
         } catch (Exception e) {
             System.out.println("OceanoLookupSupplier.get() "+e.getLocalizedMessage());
         }

@@ -6,8 +6,7 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.mongodbatlasdriver.model.Pais;
-import com.avbravo.mongodbatlasdriver.model.Planeta;
-import com.avbravo.mongodbatlasdriver.supplier.PlanetaSupplier;
+import com.avbravo.mongodbatlasdriver.model.Provincia;
 import static com.mongodb.client.model.Aggregates.lookup;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import org.bson.conversions.Bson;
  *
  * @author avbravo
  */
-public class PaisLookupSupplier {
+public class ProvinciaLookupSupplier {
 // <editor-fold defaultstate="collapsed" desc="Planeta get(Supplier<? extends Planeta> s, Document document)">
 
     /**
@@ -31,7 +30,7 @@ public class PaisLookupSupplier {
      * @return
      */
 
-    public static List<Bson> get(Supplier<? extends Pais> s, Referenced referenced) {
+    public static List<Bson> get(Supplier<? extends Provincia> s, Referenced referenced) {
        List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
@@ -41,26 +40,26 @@ public class PaisLookupSupplier {
  * 
  * Cada supplier debe verificar las clases @Referenciadas e invocar la superior
  */
-         
-            Referenced planetaReferenced = new Referenced() {
+
+ Referenced paisReferenced = new Referenced() {
                 @Override
                 public String from() {
-                    return "planeta";
+                    return "pais";
                 }
 
                 @Override
                 public String localField() {
-                    return "planeta.idplaneta";
+                    return "pais.idpais";
                 }
 
                 @Override
                 public String foreignField() {
-                    return "idplaneta";
+                    return "idpais";
                 }
 
                 @Override
                 public String as() {
-                    return "planeta";
+                    return "pais";
                 }
 
                 @Override
@@ -73,20 +72,18 @@ public class PaisLookupSupplier {
                     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
             };
-     List<Bson>  pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced);
-              if(pipelinePlaneta.isEmpty() || pipelinePlaneta.size() == 0){
+     List<Bson>  pipelinePais = PaisLookupSupplier.get(Pais::new, paisReferenced);
+              if(pipelinePais.isEmpty() || pipelinePais.size() == 0){
                   
               }else{
-                  pipelinePlaneta.forEach(b -> {
+                  pipelinePais.forEach(b -> {
                       list.add(b);
                 });
               }
        
-             
-             
-        
+         
         } catch (Exception e) {
- System.out.println("PaisLookupSupplier.get() "+e.getLocalizedMessage());
+      System.out.println("ProvinciaLookupSupplier.get() "+e.getLocalizedMessage());
         }
 
         return list;
