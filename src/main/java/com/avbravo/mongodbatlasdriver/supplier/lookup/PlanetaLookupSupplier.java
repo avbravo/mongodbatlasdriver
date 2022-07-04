@@ -28,11 +28,14 @@ public class PlanetaLookupSupplier {
      * @param document
      * @return
      */
-    public static List<Bson> get(Supplier<? extends Planeta> s, Referenced referenced) {
+    public static List<Bson> get(Supplier<? extends Planeta> s, Referenced referenced, String parent) {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
-            pipeline = lookup(referenced.from(), referenced.localField(), referenced.foreignField(),  referenced.as());
+            if(!parent.equals("")){
+                parent+=".";
+            }
+            pipeline = lookup(referenced.from(), parent+referenced.localField(), referenced.foreignField(),  referenced.as());
             list.add(pipeline);
             /**
  * 

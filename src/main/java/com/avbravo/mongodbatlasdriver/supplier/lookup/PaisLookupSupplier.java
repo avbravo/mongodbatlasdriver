@@ -20,7 +20,7 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class PaisLookupSupplier {
-// <editor-fold defaultstate="collapsed" desc="Planeta get(Supplier<? extends Planeta> s, Document document)">
+// <editor-fold defaultstate="collapsed" desc="Planeta get(Supplier<? extends Planeta> s, Document document, String parent)">
 
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
@@ -31,10 +31,13 @@ public class PaisLookupSupplier {
      * @return
      */
 
-    public static List<Bson> get(Supplier<? extends Pais> s, Referenced referenced) {
+    public static List<Bson> get(Supplier<? extends Pais> s, Referenced referenced, String parent) {
        List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
+              if(!parent.equals("")){
+                parent+=".";
+            }
             pipeline = lookup(referenced.from(),referenced.localField(), referenced.foreignField(),  referenced.as());
              list.add(pipeline);
 /**
@@ -73,7 +76,7 @@ public class PaisLookupSupplier {
                     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
             };
-     List<Bson>  pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced);
+     List<Bson>  pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced.parent);
               if(pipelinePlaneta.isEmpty() || pipelinePlaneta.size() == 0){
                   
               }else{
