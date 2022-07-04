@@ -73,6 +73,33 @@ db.provincia.aggregate(
 ).pretty()
 ```
 
+db.provincia.aggregate(
+[
+  {
+  "$lookup": {
+    "from": "pais", "localField": "pais.idpais", "foreignField": "idpais", "as": "pais"
+  }
+  },
+  {
+   "$lookup": {
+    "from": "planeta", "localField": "pais.planeta.idplaneta", "foreignField": "idplaneta", "as": "planeta"
+    }
+   },
+    {
+    "$lookup": 
+    {
+      "from": "oceano", "localField": "pais.oceano.idoceano", "foreignField": "idoceano", "as": "oceano"
+    }
+    }
+
+]
+).pretty()
+
+
+
+
+
+
 Salida
 
 ```json

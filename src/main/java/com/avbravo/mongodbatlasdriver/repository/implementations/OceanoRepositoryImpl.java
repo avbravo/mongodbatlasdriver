@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
 import org.bson.Document;
 import org.eclipse.microprofile.config.Config;
 
@@ -51,13 +49,18 @@ public class OceanoRepositoryImpl implements OceanoRepository {
      
             MongoCollection<Document> collection = database.getCollection("oceano");
 
+            /**
+             * Verifica si tiene clases @Referenciadas debe llamar los lookupSupplier
+             */
+            
+            
             MongoCursor<Document> cursor = collection.find().iterator();
             
-            Jsonb jsonb = JsonbBuilder.create();
+          
             try {
                 while (cursor.hasNext()) {
-                    Oceano oceano = OceanoSupplier.get(Oceano::new,cursor.next());                   
-                    list.add(oceano);
+               
+                    list.add(OceanoSupplier.get(Oceano::new,cursor.next()));
                 }
             } finally {
                 cursor.close();

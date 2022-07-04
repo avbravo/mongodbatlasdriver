@@ -27,5 +27,14 @@ public class Test {
         System.out.println("[ "+message+"]");
         System.out.println("_______________________________________");
     }
-    
+
+
+public static void error(String message){
+        System.out.println(".....................Error.............................");
+        System.out.println("");
+        System.out.println("          [ "+message+"]");
+        System.out.println("");
+        System.out.println("..............................................................");
+    }    
 }
+

@@ -16,8 +16,8 @@ import org.bson.conversions.Bson;
  *
  * @author avbravo
  */
-public class OceanoLookupSupplier{
-// <editor-fold defaultstate="collapsed" desc="Oceano get(Supplier<? extends Oceano> s, Document document, String parent)">
+public class OceanoLookupSupplier {
+// <editor-fold defaultstate="collapsed" desc="Oceano get(Supplier<? extends Oceano> s, Document document, String parent,Boolean... applyFromThisLevel)">
 
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
@@ -25,23 +25,36 @@ public class OceanoLookupSupplier{
      *
      * @param s
      * @param document
+     * @param applyFromNextLevell : true Aplica al siguiente nivel y a todos los
+     * superiores : false aplica al superior del nivel superior
      * @return
      */
-    public static List<Bson> get(Supplier<? extends Oceano> s, Referenced referenced, String parent) {
+    public static List<Bson> get(Supplier<? extends Oceano> s, Referenced referenced, String parent, Boolean... applyFromThisLevel) {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
-   
-//            pipeline = lookup(referenced.from(), LookupSupplierUtil.localFieldRecursive(referenced, parent), referenced.foreignField(),  referenced.as());
-//            pipeline = LookupSupplierUtil
-            list.add(LookupSupplier.get(referenced, parent));
-      
-/**
- * 
- * Cada supplier debe verificar las clases @Referenciadas e invocar la superior
- */
+            Boolean apply = true;
+            if (applyFromThisLevel.length != 0) {
+                apply = applyFromThisLevel[0];
+
+            }
+
+            list.add(LookupSupplier.get(referenced, parent, apply));
+
+            /**
+             *
+             * Cada supplier debe verificar las clases @Referenciadas e invocar
+             * la superior
+             *
+             * Esta aplica en false del lookup ya que genera a partir del
+             * siguiente Aplica para el siguiente
+             */
+            if (!apply) {
+                apply = Boolean.TRUE;
+            }
+
         } catch (Exception e) {
-            System.out.println("OceanoLookupSupplier.get() "+e.getLocalizedMessage());
+            System.out.println("OceanoLookupSupplier.get() " + e.getLocalizedMessage());
         }
 
         return list;

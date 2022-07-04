@@ -19,31 +19,44 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class ProvinciaLookupSupplier {
-// <editor-fold defaultstate="collapsed" desc="Planeta get(Supplier<? extends Planeta> s, Document document, String parent)">
+// <editor-fold defaultstate="collapsed" desc="Planeta get(Supplier<? extends Planeta> s, Document document, String parent, Boolean applyFromNextLevel)">
 
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
      * convertirlo directamente a Objeto.
-     *
+      *
      * @param s
      * @param document
+     * @param applyFromNextLevell : true  Aplica al siguiente nivel y a todos los superiores
+     *                            : false aplica al superior del nivel superior
      * @return
      */
 
-    public static List<Bson> get(Supplier<? extends Provincia> s, Referenced referenced, String parent) {
+    public static List<Bson> get(Supplier<? extends Provincia> s, Referenced referenced, String parent,Boolean... applyFromThisLevel) {
        List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
-//            pipeline = lookup(referenced.from(),referenced.localField(), referenced.foreignField(),  referenced.as());
-//             list.add(pipeline);
+             Boolean apply = true;
+            if (applyFromThisLevel.length != 0) {
+                apply = applyFromThisLevel[0];
+
+            }
+
+
+             list.add(LookupSupplier.get(referenced,parent, apply));
              
-             list.add(LookupSupplier.get(referenced,parent));
-             
-             
-/**
- * 
- * Cada supplier debe verificar las clases @Referenciadas e invocar la superior
- */
+
+            /**
+             *
+             * Cada supplier debe verificar las clases @Referenciadas e invocar
+             * la superior
+             *
+             * Esta aplica en false del lookup ya que genera a partir del
+             * siguiente Aplica para el siguiente
+             */
+            if (!apply) {
+                apply = Boolean.TRUE;
+            }
 
  Referenced paisReferenced = new Referenced() {
                 @Override
@@ -77,7 +90,7 @@ public class ProvinciaLookupSupplier {
                 }
             };
  
-     List<Bson>  pipelinePais = PaisLookupSupplier.get(Pais::new, paisReferenced, parent);
+     List<Bson>  pipelinePais = PaisLookupSupplier.get(Pais::new, paisReferenced, parent, apply);
               if(pipelinePais.isEmpty() || pipelinePais.size() == 0){
                   
               }else{

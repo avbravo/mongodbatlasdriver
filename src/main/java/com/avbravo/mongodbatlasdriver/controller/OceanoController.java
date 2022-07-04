@@ -35,7 +35,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
  * @author avbravo
  */
 @Path("/oceano")
-@Tag(name = "Config Retrieval planeta", description = "Get the value for planeta")
+@Tag(name = "Config Retrieval oceano", description = "Get the value for oceano")
 public class OceanoController {
 
  private static final Supplier<WebApplicationException> NOT_FOUND =
@@ -46,11 +46,11 @@ public class OceanoController {
     // <editor-fold defaultstate="collapsed" desc="@GET">
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Operation(summary = "Get all planeta", description = "Returns all available items at the planeta")
+    @Operation(summary = "Get all oceano", description = "Returns all available items at the oceano")
     @APIResponse(responseCode = "500", description = "Server unavailable")
-    @APIResponse(responseCode = "200", description = "The planetas")
+    @APIResponse(responseCode = "200", description = "The oceanos")
     @Tag(name = "BETA", description = "This API is currently in beta state")
-    @APIResponse(description = "The planetas", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Collection.class, readOnly = true, description = "the planetas", required = true, name = "planetas")))
+    @APIResponse(description = "The oceanos", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Collection.class, readOnly = true, description = "the oceanos", required = true, name = "oceanos")))
     public List<Oceano> get() {
         List<Oceano> list = new ArrayList<>();
         try {
@@ -76,33 +76,33 @@ public class OceanoController {
     
      @GET
     @Path("{id}")
-    @Operation(summary = "Find a planeta by id", description = "Find a planeta by id")
-    @APIResponse(responseCode = "200", description = "The planeta")
+    @Operation(summary = "Find a oceano by id", description = "Find a oceano by id")
+    @APIResponse(responseCode = "200", description = "The oceano")
     @APIResponse(responseCode = "404", description = "When the id does not exist")
     @APIResponse(responseCode = "500", description = "Server unavailable")
     @Tag(name = "BETA", description = "This API is currently in beta state")
-    @APIResponse(description = "The planeta", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Oceano.class)))
+    @APIResponse(description = "The oceano", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Oceano.class)))
     public Oceano findById(
             @Parameter(description = "The item ID", required = true, example = "1", schema = @Schema(type = SchemaType.STRING)) @PathParam("id") String id) {
         return oceanoRepository.findById(id).orElseThrow(
-                () -> new WebApplicationException("There is no planeta with the id " + id, Response.Status.NOT_FOUND));
+                () -> new WebApplicationException("There is no oceano with the id " + id, Response.Status.NOT_FOUND));
     }
     
     
      @POST
-    @Operation(summary = "Insert a planeta", description = "Insert a planeta")
-    @APIResponse(responseCode = "201", description = "When creates an planeta")
+    @Operation(summary = "Insert a oceano", description = "Insert a oceano")
+    @APIResponse(responseCode = "201", description = "When creates an oceano")
     @APIResponse(responseCode = "500", description = "Server unavailable")
     @Tag(name = "BETA", description = "This API is currently in beta state")
     public Response insert(
-            @RequestBody(description = "Create a new planeta.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Oceano.class))) Oceano planeta) {
-        return Response.status(Response.Status.CREATED).entity(oceanoRepository.save(planeta)).build();
+            @RequestBody(description = "Create a new oceano.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Oceano.class))) Oceano oceano) {
+        return Response.status(Response.Status.CREATED).entity(oceanoRepository.save(oceano)).build();
     }
 
     @DELETE
     @Path("{id}")
-    @Operation(summary = "Delete a planeta by ID", description = "Delete a planeta by ID")
-    @APIResponse(responseCode = "200", description = "When deletes the planeta")
+    @Operation(summary = "Delete a oceano by ID", description = "Delete a oceano by ID")
+    @APIResponse(responseCode = "200", description = "When deletes the oceano")
     @APIResponse(responseCode = "500", description = "Server unavailable")
     @Tag(name = "BETA", description = "This API is currently in beta state")
     public Response delete(

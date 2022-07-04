@@ -21,6 +21,9 @@ public class ProvinciaSupplier {
     public static Provincia get(Supplier<? extends Provincia> s, Document document) {
         Provincia provincia = s.get();
         try {
+            
+            Test.box("ProvinciaSupplier.get()");
+            Test.msgTab("ProvinciaSupplier.document.toJson()"+document.toJson());
             provincia.setIdprovincia(String.valueOf(document.get("idprovincia")));
             provincia.setProvincia(String.valueOf(document.get("provincia")));
             

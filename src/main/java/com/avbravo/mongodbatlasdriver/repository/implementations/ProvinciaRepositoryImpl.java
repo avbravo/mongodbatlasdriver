@@ -34,7 +34,7 @@ import org.eclipse.microprofile.config.Config;
 //@Stateless
 public class ProvinciaRepositoryImpl implements ProvinciaRepository {
 
-    // <editor-fold defaultstate="collapsed" desc="metodo">
+    // <editor-fold defaultstate="collapsed" desc="@Inject">
 
     @Inject
     private Config config;
@@ -115,7 +115,14 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
              * asi que debe ser un parent para otros.
              * por eso se coloca alli
              */
-            List<Bson> pipelinePais= PaisLookupSupplier.get(Pais::new, paisReferenced, "pais");
+            /**
+             * Tiene @Referenceed a Pais
+             *        Si se analiza Pais tiene @Referenced a Oceano y Planeta
+             *        La busqueda del proximo nivel no aplica a pais.pais.idpais si no debe ser
+             *        pais.idpais por lo que no pasa en false.
+             */
+
+            List<Bson> pipelinePais= PaisLookupSupplier.get(Pais::new, paisReferenced, "pais",false);
 
             if (pipelinePais.isEmpty() || pipelinePais.size() == 0) {
                 Test.msg("pipeLinePais.isEmpty()");
@@ -132,12 +139,9 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
              */
             MongoCursor<Document> cursor;
             if (lookup.isEmpty() || lookup.size() == 0) {
-
-                Test.msgTab("[execute find().]");
                 cursor = collection.find().iterator();
 
             } else {
-                Test.msgTab("execute aggregate");
                 Test.box("lookup en ProvinciaRepositoyyImpl: "+lookup.toString());
                 
                 cursor = collection.aggregate(lookup).iterator();
@@ -146,7 +150,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
 
             try {
                 while (cursor.hasNext()) {
-                    Test.msg("cursor.next()");
+                    Test.msg("cursor.next() call ProvinciaSupplier.get()");
                     Provincia provincia = ProvinciaSupplier.get(Provincia::new, cursor.next());
                     list.add(provincia);
                 }
