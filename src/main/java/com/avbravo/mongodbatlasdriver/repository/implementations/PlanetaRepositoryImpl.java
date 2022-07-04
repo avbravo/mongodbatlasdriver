@@ -6,11 +6,8 @@ package com.avbravo.mongodbatlasdriver.repository.implementations;
 
 import com.avbravo.mongodbatlasdriver.model.Planeta;
 import com.avbravo.mongodbatlasdriver.repository.PlanetaRepository;
-import com.avbravo.mongodbatlasdriver.repository.PlanetaRepository;
-import com.avbravo.mongodbatlasdriver.repository.PlanetaRepository;
 import com.avbravo.mongodbatlasdriver.supplier.PlanetaSupplier;
 import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -24,7 +21,6 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import org.bson.Document;
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 /**
  *
@@ -34,7 +30,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 //@Stateless
 public class PlanetaRepositoryImpl implements PlanetaRepository {
 
-    // <editor-fold defaultstate="collapsed" desc="metodo">
+    // <editor-fold defaultstate="collapsed" desc="@Inject">
 
     @Inject
     private Config config;

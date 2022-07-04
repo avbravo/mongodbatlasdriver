@@ -109,7 +109,13 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
             List<Bson> lookup = new ArrayList<>();
 
             Test.box(" Invocando PaisaLookupSupplier");
-            List<Bson> pipelinePais= PaisLookupSupplier.get(Pais::new, paisReferenced);
+            /**
+             * Tengo que analizar la clase y saber que hay dentro de el otras referencias
+             * por ejemplo provincia-->pais-->planeta (Planeta tiene referenciados dentro de el 
+             * asi que debe ser un parent para otros.
+             * por eso se coloca alli
+             */
+            List<Bson> pipelinePais= PaisLookupSupplier.get(Pais::new, paisReferenced, "pais");
 
             if (pipelinePais.isEmpty() || pipelinePais.size() == 0) {
                 Test.msg("pipeLinePais.isEmpty()");

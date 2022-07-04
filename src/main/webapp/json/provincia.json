@@ -1,2 +1,2 @@
-{ "_id" : { "$oid" : "62c0f725038c520e952b9bee" }, "idprovincia" : "7", "provincia" : "Los Santos", "pais" : { "idpais" : "pa" } }
-{ "_id" : { "$oid" : "62c0f768038c520e952b9bef" }, "idprovincia" : "8", "provincia" : "Pensilvania", "pais" : { "idpais" : "usa" } }
+{ "idprovincia" : "7", "provincia" : "Los Santos", "pais" : { "idpais" : "pa" } }
+{ "idprovincia" : "8", "provincia" : "Pensilvania", "pais" : { "idpais" : "usa" }} 

@@ -5,9 +5,8 @@
 package com.avbravo.mongodbatlasdriver.supplier.lookup;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
-import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
-import static com.mongodb.client.model.Aggregates.lookup;
+import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -18,7 +17,7 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class PlanetaLookupSupplier {
-// <editor-fold defaultstate="collapsed" desc="Planeta get(Supplier<? extends Planeta> s, Document document)">
+// <editor-fold defaultstate="collapsed" desc="Planeta get(Supplier<? extends Planeta> s, Document document, String parent)">
 
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
@@ -32,11 +31,11 @@ public class PlanetaLookupSupplier {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
-            if(!parent.equals("")){
-                parent+=".";
-            }
-            pipeline = lookup(referenced.from(), parent+referenced.localField(), referenced.foreignField(),  referenced.as());
-            list.add(pipeline);
+           
+//            pipeline = lookup(referenced.from(), parent+referenced.localField(), referenced.foreignField(),  referenced.as());
+//            list.add(pipeline);
+            
+            list.add(LookupSupplier.get(referenced,parent));
             /**
  * 
  * Cada supplier debe verificar las clases @Referenciadas e invocar la superior

@@ -145,7 +145,7 @@ public class PaisRepositoryImpl implements PaisRepository {
             List<Bson> lookup = new ArrayList<>();
 
             Test.box(" Invocando PlanetaLookupSupplier");
-            List<Bson> pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced);
+            List<Bson> pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced, "");
 
             if (pipelinePlaneta.isEmpty() || pipelinePlaneta.size() == 0) {
                 Test.msg("pipeLinePlaneta.isEmpty()");
@@ -159,7 +159,7 @@ public class PaisRepositoryImpl implements PaisRepository {
             Invocando OceanoLookup
              */
             Test.box(" Invocando OceanoLookupSupplier");
-            List<Bson> pipelineOceano = OceanoLookupSupplier.get(Oceano::new, oceanoReferenced);
+            List<Bson> pipelineOceano = OceanoLookupSupplier.get(Oceano::new, oceanoReferenced, "");
 
             if (pipelineOceano.isEmpty() || pipelineOceano.size() == 0) {
                 Test.msg("pipeLineOceano.isEmpty()");

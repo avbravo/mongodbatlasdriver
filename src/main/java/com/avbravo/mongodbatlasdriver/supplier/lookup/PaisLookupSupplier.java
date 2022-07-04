@@ -7,7 +7,7 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup;
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
-import com.avbravo.mongodbatlasdriver.supplier.PlanetaSupplier;
+import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import static com.mongodb.client.model.Aggregates.lookup;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -35,11 +35,11 @@ public class PaisLookupSupplier {
        List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
-              if(!parent.equals("")){
-                parent+=".";
-            }
-            pipeline = lookup(referenced.from(),referenced.localField(), referenced.foreignField(),  referenced.as());
-             list.add(pipeline);
+           
+//            pipeline = lookup(referenced.from(),referenced.localField(), referenced.foreignField(),  referenced.as());
+//             list.add(pipeline);
+             
+             list.add(LookupSupplier.get(referenced, parent));
 /**
  * 
  * Cada supplier debe verificar las clases @Referenciadas e invocar la superior
@@ -76,7 +76,7 @@ public class PaisLookupSupplier {
                     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
             };
-     List<Bson>  pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced.parent);
+           List<Bson>  pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced,parent);
               if(pipelinePlaneta.isEmpty() || pipelinePlaneta.size() == 0){
                   
               }else{
