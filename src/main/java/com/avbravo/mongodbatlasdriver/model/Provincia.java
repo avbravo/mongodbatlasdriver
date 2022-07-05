@@ -8,6 +8,7 @@ import com.avbravo.jmoordb.core.annotation.Column;
 import com.avbravo.jmoordb.core.annotation.Entity;
 import com.avbravo.jmoordb.core.annotation.Id;
 import com.avbravo.jmoordb.core.annotation.Referenced;
+import java.util.List;
 
 /**
  *
@@ -20,7 +21,8 @@ public class Provincia {
     @Column
     private String provincia;
     @Referenced(from = "provincia",localField = "provincia.idprovincia",foreignField = "idprovincia", as="provincia")
-    private Pais pais;
+ private Pais pais;
+
 
     public Provincia() {
     }
@@ -48,6 +50,8 @@ public class Provincia {
     public void setPais(Pais pais) {
         this.pais = pais;
     }
+
+    
 
     
     

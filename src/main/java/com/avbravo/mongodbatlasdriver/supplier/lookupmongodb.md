@@ -73,29 +73,6 @@ db.provincia.aggregate(
 ).pretty()
 ```
 
-db.provincia.aggregate(
-[
-  {
-  "$lookup": {
-    "from": "pais", "localField": "pais.idpais", "foreignField": "idpais", "as": "pais"
-  }
-  },
-  {
-   "$lookup": {
-    "from": "planeta", "localField": "pais.planeta.idplaneta", "foreignField": "idplaneta", "as": "planeta"
-    }
-   },
-    {
-    "$lookup": 
-    {
-      "from": "oceano", "localField": "pais.oceano.idoceano", "foreignField": "idoceano", "as": "oceano"
-    }
-    }
-
-]
-).pretty()
-
-
 
 
 
@@ -213,4 +190,60 @@ Salida
                 }
         ]
 }
+```
+
+***
+# Referencia de 3 Nivel
+Lleva una referencia A->B->C
+                     A->B->D
+Donde el lookup que genera debe incluir la coleccion de segundo nivel B.C
+
+## corregimiento-->provincia -->pais --> planeta
+                     --> oceano
+Observe que los aniados deben incluir pais.pleneta.idplaneta
+                                      pais.oceano.idoceano
+Observe que en nivel 3 el patter cambia cuando pasa a nivel 2
+
+
+```json
+db.corregimiento.aggregate(
+[
+   {
+    $lookup:{
+            from:"provincia",
+            localField:"provincia.idprovincia",
+            foreignField:"idprovincia",
+            as:"provincia"
+            }
+    }
+,
+   {
+    $lookup:{
+            from:"pais",
+            localField:"provincia.pais.idpais",
+            foreignField:"idpais",
+            as:"pais"
+            }
+    }
+,
+{
+    $lookup:{
+            from:"planeta",
+            localField:"pais.planeta.idplaneta",
+            foreignField:"idplaneta",
+            as:"planeta"
+            }
+    }
+,
+{ 
+  $lookup:{
+            from:"oceano",
+            localField:"pais.oceano.idoceano",
+            foreignField:"idoceano",
+            as:"oceano"
+            }
+  }
+
+]
+).pretty()
 ```

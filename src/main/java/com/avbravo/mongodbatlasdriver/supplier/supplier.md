@@ -107,6 +107,18 @@ public static Pais get(Supplier<? extends Pais> s, List<Document> documentPaisLi
 
 ***
 ## Nivel 2 (Tiene referecia a una entidad que tiene referencia)
+Debe invocar al Supplier de la entidad referenciada mediante el metodo get()
+pasandole List<Document> de cada entidad referenciada.
+
+Restricciones:
+   - Nivel 2 no permite @Referenced List<> a una entidad de nivel 1
+     Por lo tanto @Referenced List<Pais> no sera valido
+   - Nivel 2 si permite @Referenced List<> a una entidad de nivel 0
+     Por lo tanto @Referenced Pais es valido  
+     Tambien es valido @Referenced List<Planeta> ya que planeta es una entidad de nivel 0
+
+
+
 ```
              * Esto aplica para nivel 2 donde hay que conocer los padres que
              * tiene Se debe conocer de la entidad de siguente nivel Pais cuales

@@ -6,9 +6,8 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
-import com.avbravo.mongodbatlasdriver.model.Oceano;
-import com.avbravo.mongodbatlasdriver.model.Pais;
-import com.avbravo.mongodbatlasdriver.model.Planeta;
+import com.avbravo.mongodbatlasdriver.model.Corregimiento;
+import com.avbravo.mongodbatlasdriver.model.Provincia;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -20,8 +19,8 @@ import org.bson.conversions.Bson;
  *
  * @author avbravo
  */
-public class PaisLookupSupplier {
-// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent ,Boolean... applyFromThisLevel)">
+public class CorregimientoLookupSupplier {
+// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, Boolean applyFromNextLevel)">
 
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
@@ -33,7 +32,7 @@ public class PaisLookupSupplier {
      * superiores : false aplica al superior del nivel superior
      * @return
      */
-    public static List<Bson> get(Supplier<? extends Pais> s, Referenced referenced, String parent, Boolean... applyFromThisLevel) {
+    public static List<Bson> get(Supplier<? extends Corregimiento> s, Referenced referenced, String parent, Boolean... applyFromThisLevel) {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
@@ -57,25 +56,25 @@ public class PaisLookupSupplier {
                 apply = Boolean.TRUE;
             }
 
-            Referenced planetaReferenced = new Referenced() {
+            Referenced provinciaReferenced = new Referenced() {
                 @Override
                 public String from() {
-                    return "planeta";
+                    return "provincia";
                 }
 
                 @Override
                 public String localField() {
-                    return "planeta.idplaneta";
+                    return "provincia.idprovincia";
                 }
 
                 @Override
                 public String foreignField() {
-                    return "idplaneta";
+                    return "idprovincia";
                 }
 
                 @Override
                 public String as() {
-                    return "planeta";
+                    return "provincia";
                 }
 
                 @Override
@@ -88,60 +87,18 @@ public class PaisLookupSupplier {
                     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
             };
-            Referenced oceanoReferenced = new Referenced() {
-                @Override
-                public String from() {
-                    return "oceano";
-                }
 
-                @Override
-                public String localField() {
-                    return "oceano.idoceano";
-                }
-
-                @Override
-                public String foreignField() {
-                    return "idoceano";
-                }
-
-                @Override
-                public String as() {
-                    return "oceano";
-                }
-
-                @Override
-                public boolean lazy() {
-                    return false;
-                }
-
-                @Override
-                public Class<? extends Annotation> annotationType() {
-                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                }
-            };
-            
-            List<Bson> pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced, parent, apply);
-            if (pipelinePlaneta.isEmpty() || pipelinePlaneta.size() == 0) {
+            List<Bson> pipelineProvincia = ProvinciaLookupSupplier.get(Provincia::new, provinciaReferenced, parent, apply);
+            if (pipelineProvincia.isEmpty() || pipelineProvincia.size() == 0) {
 
             } else {
-                pipelinePlaneta.forEach(b -> {
+                pipelineProvincia.forEach(b -> {
                     list.add(b);
                 });
             }
-            
-            List<Bson> pipelineOceano = OceanoLookupSupplier.get(Oceano::new, oceanoReferenced, parent, apply);
-            if (pipelineOceano.isEmpty() || pipelineOceano.size() == 0) {
-
-            } else {
-                pipelineOceano.forEach(b -> {
-                    list.add(b);
-                });
-            }
-            
-            
 
         } catch (Exception e) {
-           Test.error("PaisLookupSupplier.get() " + e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return list;

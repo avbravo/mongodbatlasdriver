@@ -5,6 +5,7 @@
 package com.avbravo.mongodbatlasdriver.supplier.lookup;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
+import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class OceanoLookupSupplier {
-// <editor-fold defaultstate="collapsed" desc="Oceano get(Supplier<? extends Oceano> s, Document document, String parent,Boolean... applyFromThisLevel)">
+// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Oceano> s, Document document, String parent,Boolean... applyFromThisLevel)">
 
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
@@ -54,7 +55,7 @@ public class OceanoLookupSupplier {
             }
 
         } catch (Exception e) {
-            System.out.println("OceanoLookupSupplier.get() " + e.getLocalizedMessage());
+           Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return list;

@@ -7,11 +7,11 @@ package com.avbravo.mongodbatlasdriver.repository.implementations;
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.jmoordb.core.util.Test;
-import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
-import com.avbravo.mongodbatlasdriver.repository.ProvinciaRepository;
-import com.avbravo.mongodbatlasdriver.supplier.ProvinciaSupplier;
-import com.avbravo.mongodbatlasdriver.supplier.lookup.PaisLookupSupplier;
+import com.avbravo.mongodbatlasdriver.model.Corregimiento;
+import com.avbravo.mongodbatlasdriver.repository.CorregimientoRepository;
+import com.avbravo.mongodbatlasdriver.supplier.CorregimientoSupplier;
+import com.avbravo.mongodbatlasdriver.supplier.lookup.ProvinciaLookupSupplier;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -33,7 +33,7 @@ import org.eclipse.microprofile.config.Config;
  */
 @ApplicationScoped
 //@Stateless
-public class ProvinciaRepositoryImpl implements ProvinciaRepository {
+public class CorregimientoRepositoryImpl implements CorregimientoRepository {
 
     // <editor-fold defaultstate="collapsed" desc="@Inject">
 
@@ -44,16 +44,16 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
     MongoClient mongoClient;
 // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="List<Provincia> findAll()">
+    // <editor-fold defaultstate="collapsed" desc="List<Corregimiento> findAll()">
 
     @Override
-    public List<Provincia> findAll() {
+    public List<Corregimiento> findAll() {
 
-      List<Provincia> list = new ArrayList<>();
+      List<Corregimiento> list = new ArrayList<>();
         try {
-            ConsoleUtil.warning(Test.nameOfClassAndMethod()+ "findAll()");
+        
             MongoDatabase database = mongoClient.getDatabase("world");
-            MongoCollection<Document> collection = database.getCollection("provincia");
+            MongoCollection<Document> collection = database.getCollection("corregimiento");
             /**
              * Analiza las referencias
              */
@@ -66,7 +66,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
 //             Bson pipeline = lookup("planeta", "planeta.idplaneta", "idplaneta", "planeta");
 
             /**
-             * Aqui lee la entidad Pais y busca todas las references
+             * Aqui lee la entidad Provincia y busca todas las references
              *
              * @Referenced(from = "planeta",localField =
              * "idplaneta",foreignField = "idplaneta",as ="planeta") private
@@ -75,25 +75,25 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
              * Encontro Planeta asi que obtiene la clase y la referencia
              *
              */
-            Referenced paisReferenced = new Referenced() {
+            Referenced provinciaReferenced = new Referenced() {
                 @Override
                 public String from() {
-                    return "pais";
+                    return "provincia";
                 }
 
                 @Override
                 public String localField() {
-                    return "pais.idpais";
+                    return "provincia.idprovincia";
                 }
 
                 @Override
                 public String foreignField() {
-                    return "idpais";
+                    return "idprovincia";
                 }
 
                 @Override
                 public String as() {
-                    return "pais";
+                    return "provincia";
                 }
 
                 @Override
@@ -113,23 +113,23 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
          
             /**
              * Tengo que analizar la clase y saber que hay dentro de el otras referencias
-             * por ejemplo provincia-->pais-->planeta (Planeta tiene referenciados dentro de el 
+             * por ejemplo corregimiento-->pais-->planeta (Planeta tiene referenciados dentro de el 
              * asi que debe ser un parent para otros.
              * por eso se coloca alli
              */
             /**
-             * Tiene @Referenceed a Pais
-             *        Si se analiza Pais tiene @Referenced a Oceano y Planeta
+             * Tiene @Referenceed a Provincia
+             *        Si se analiza Provincia tiene @Referenced a Oceano y Planeta
              *        La busqueda del proximo nivel no aplica a pais.pais.idpais si no debe ser
              *        pais.idpais por lo que no pasa en false.
              */
 
-            List<Bson> pipelinePais= PaisLookupSupplier.get(Pais::new, paisReferenced, "pais",false);
+            List<Bson> pipelineProvincia= ProvinciaLookupSupplier.get(Provincia::new, provinciaReferenced, "provincia",false);
 
-            if (pipelinePais.isEmpty() || pipelinePais.size() == 0) {
-                Test.msg("pipeLinePais.isEmpty()");
+            if (pipelineProvincia.isEmpty() || pipelineProvincia.size() == 0) {
+                Test.msg("pipeLineProvincia.isEmpty()");
             } else {
-                pipelinePais.forEach(b -> {
+                pipelineProvincia.forEach(b -> {
                     lookup.add(b);
                 });
             }
@@ -144,7 +144,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
                 cursor = collection.find().iterator();
 
             } else {
-                Test.box("lookup en ProvinciaRepositoyyImpl: "+lookup.toString());
+                Test.box("lookup en CorregimientoRepositoyyImpl: "+lookup.toString());
                 
                 cursor = collection.aggregate(lookup).iterator();
       
@@ -152,8 +152,8 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
 
             try {
                 while (cursor.hasNext()) {
-                    Provincia provincia = ProvinciaSupplier.get(Provincia::new, cursor.next());
-                    list.add(provincia);
+                    Corregimiento corregimiento = CorregimientoSupplier.get(Corregimiento::new, cursor.next());
+                    list.add(corregimiento);
                 }
             } finally {
                 cursor.close();
@@ -166,16 +166,16 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
     }
 // </editor-fold>
     @Override
-    public Optional<Provincia> findById(String id) {
+    public Optional<Corregimiento> findById(String id) {
 
         try {
             MongoDatabase database = mongoClient.getDatabase("world");
-            MongoCollection<Document> collection = database.getCollection("provincia");
-            Document doc = collection.find(eq("idprovincia", id)).first();
+            MongoCollection<Document> collection = database.getCollection("corregimiento");
+            Document doc = collection.find(eq("idcorregimiento", id)).first();
            
-            Provincia provincia = ProvinciaSupplier.get(Provincia::new,doc);
+            Corregimiento corregimiento = CorregimientoSupplier.get(Corregimiento::new,doc);
 
-            return Optional.of(provincia);
+            return Optional.of(corregimiento);
         } catch (Exception e) {
             Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
@@ -184,7 +184,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
     }
 
     @Override
-    public Provincia save(Provincia provincia) {
+    public Corregimiento save(Corregimiento corregimiento) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -194,7 +194,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
     }
 
     @Override
-    public List<Provincia> findByProvincia(String contry) {
+    public List<Corregimiento> findByCorregimiento(String contry) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

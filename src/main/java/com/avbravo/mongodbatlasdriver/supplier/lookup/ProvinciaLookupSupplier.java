@@ -5,6 +5,7 @@
 package com.avbravo.mongodbatlasdriver.supplier.lookup;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
+import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
@@ -19,7 +20,7 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class ProvinciaLookupSupplier {
-// <editor-fold defaultstate="collapsed" desc="Planeta get(Supplier<? extends Planeta> s, Document document, String parent, Boolean applyFromNextLevel)">
+// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, Boolean applyFromNextLevel)">
 
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
@@ -101,7 +102,7 @@ public class ProvinciaLookupSupplier {
        
          
         } catch (Exception e) {
-      System.out.println("ProvinciaLookupSupplier.get() "+e.getLocalizedMessage());
+     Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return list;
