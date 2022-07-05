@@ -46,6 +46,9 @@ public class ProvinciaSupplier {
             -------------------------------------------------------
          */
     
+            aqui ya trae todos los documentos se pueden procesar
+                    
+            
             // (if simple )
             Test.box("Revisare los paises");
             Boolean isSimplePais = true;
@@ -67,6 +70,8 @@ public class ProvinciaSupplier {
 
             } else {
                // Esta seccion es para @Referenced List<>
+               
+               
             }
             
 
