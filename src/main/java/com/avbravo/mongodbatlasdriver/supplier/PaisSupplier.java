@@ -1,4 +1,4 @@
- /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -27,29 +27,45 @@ public class PaisSupplier {
     public static Pais get(Supplier<? extends Pais> s, Document document) {
         Pais pais = s.get();
         try {
-            Test.msgTab("PaisSupplier  voy a leer pais");
+
+            /**
+             * Entidad:
+             * Pais{
+             *
+             *     @Embedded Idioma idioma;
+             *     @Embedded List<Musica>;
+             *     @Referenced Planeta planeta;
+             *     @Referenced List<Oceano>; 
+             * }
+             * 
+             * Nivel de Trabajo : 1
+             * 
+             * Esquema de Niveles:
+             * |Nivel 1  |  Nivel 0
+             * Pais    -->  @E(Idioma)
+             * Pais    -->  @E(List<Musica>
+             * Pais    -->  @R(Planeta)
+             * Pais    -->  @R(List<Planeta>
+             * 
+             */
             pais.setIdpais(String.valueOf(document.get("idpais")));
             pais.setPais(String.valueOf(document.get("pais")));
 
-            Test.msgTab("PaisSupplier  voy a leer idioma");
             /**
-             * No es entidad final
-             */
-
-            /**
-             * --------------------------------------------- Embebido Simple
-             * Obtiene directamente
-             * ----------------------------------------------
+             * ---------------------------------------------
+             *
+             * @Embedded simple ----------------------------------------------
              */
             Document doc = (Document) document.get("idioma");
             Jsonb jsonb = JsonbBuilder.create();
             Idioma idioma = jsonb.fromJson(doc.toJson(), Idioma.class);
             pais.setIdioma(idioma);
-            Test.msgTab("PaisSupplier  voy a leer musica");
+
             /**
-             * ------------------------------------------------ Lista @Embedded
-             * Debe utilizar una lista temporal para almacenar los valores
+             * --------------------------------------------------
              *
+             * @Embedded List<Musica>
+             * Debe utilizar una lista temporal para almacenar los valores *
              * --------------------------------------------------
              */
             List<Musica> musicaList = new ArrayList<>();
@@ -68,24 +84,23 @@ public class PaisSupplier {
              */
             /*
             -------------------------------------------------------
+              /**
+             * --------------------------------------------------
+             * @Referenced Planeta planeta;
+             * Es una referencia simple no usa List
+             * --------------------------------------------------
              */
-            Test.msgTab("PaisSupplier  voy a leer planeta");
-            // (if simple )
-            Boolean isSimplePlaneta = true;
+            Boolean istListReferecendToPlaneta = false;
             List<Document> docPlanetaList = (List<Document>) document.get("planeta");
             Document docPlaneta;
-            if (isSimplePlaneta) {
-                Test.msgTab("PaisSupplier  isSimple");
+            if (!istListReferecendToPlaneta) {
                 if (docPlanetaList.isEmpty() || docPlanetaList.size() == 0) {
-                    Test.warning("No hay registros de planetas");
                 } else {
                     docPlaneta = docPlanetaList.get(0);
                     pais.setPlaneta(PlanetaSupplier.get(Planeta::new, docPlaneta));
-                    Test.msgTab("docPlaneta obtenido:" + docPlaneta);
                 }
 
             } else {
-                Test.msgTab("PaisSupplier  is Referenced");
                 /**
                  * Lista de Referenciados Recorre cada elemento y lo carga en un
                  * List<Entidad>
@@ -103,15 +118,18 @@ public class PaisSupplier {
 //                 }
 //                pais.setPlaneta(planetaList);
             }
-            Test.msgTab("PaisSupplier  voy a leer oceano...");
+
             /**
              * *
-             * Oceano
+             * Verifica la siguiente Referecncia
+             *
+             * @Referenced List<Ocenano> oceano; Determina que es una lista
+             * referenciada
              */
-            Boolean isSimpleOceano = false;
+            Boolean istListReferecendToOceano = true;
             List<Document> docOceanoList = (List<Document>) document.get("oceano");
             Document docOceano;
-            if (isSimpleOceano) {
+            if (!istListReferecendToOceano) {
 
 //                if (docOceanoList.isEmpty() || docOceanoList.size() == 0) {
 //                    Test.warning("No hay registros de oceano");
@@ -137,14 +155,169 @@ public class PaisSupplier {
                 pais.setOceano(oceanoList);
 
             }
-            Test.msgTab("PaisSupplier  retornar pais");
 
         } catch (Exception e) {
-            System.out.println("PaisSupplier.get() " + e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return pais;
 
     }
 // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Pais get(Supplier<? extends Pais> s, Document document)">
+    /**
+     * 
+     * @param s
+     * @param documentPaisList
+     * @param documentPlanetaList
+     * @param documentOceanoList
+     * @return  Se invoca desde otro Supplier
+     */
+    public static Pais get(Supplier<? extends Pais> s, List<Document> documentPaisList, List<Document> documentPlanetaList, List<Document> documentOceanoList) {
+        Pais pais = s.get();
+        try {
+            /**
+             * Cuando se usan list se obtiene el primer elemento para procesarlo
+             */
+
+            /**
+             * Entidad: Pais
+             * 
+             * Pais{
+             *      @Embedded Idioma idioma;
+             *      @Embedded List<Musica>;
+             *      @Referenced Planeta planeta;
+             *      @Referenced List<Oceano>; 
+             * }
+             * 
+             * Nivel de Trabajo : 1
+             * 
+             * Esquema de Niveles:
+             * |Nivel 1  |  Nivel 0
+             * Pais    -->  @E(Idioma)
+             * Pais    -->  @E(List<Musica>
+             * Pais    -->  @R(Planeta)
+             * Pais    -->  @R(List<Planeta>
+             * 
+             */
+            Document document = documentPaisList.get(0);
+
+            pais.setIdpais(String.valueOf(document.get("idpais")));
+            pais.setPais(String.valueOf(document.get("pais")));
+
+            /**
+             * ---------------------------------------------
+             *
+             * @Embedded simple ----------------------------------------------
+             */
+            Document doc = (Document) document.get("idioma");
+            Jsonb jsonb = JsonbBuilder.create();
+            Idioma idioma = jsonb.fromJson(doc.toJson(), Idioma.class);
+            pais.setIdioma(idioma);
+
+            /**
+             * --------------------------------------------------
+             *
+             * @Embedded List<Musica>
+             * Debe utilizar una lista temporal para almacenar los valores *
+             * --------------------------------------------------
+             */
+            List<Musica> musicaList = new ArrayList<>();
+            List<Document> musicDoc = (List) document.get("musica");
+            for (Document docm : musicDoc) {
+                Musica musica = jsonb.fromJson(docm.toJson(), Musica.class);
+                musicaList.add(musica);
+            }
+            pais.setMusica(musicaList);
+
+            /**
+             * @Referenced Nota: Las referencias generadas mediante lookup nos
+             * devuelven un List<>
+             * Por lo tanto debemos verificar si es una entidad simple o un
+             * @Referenced List<Entidad>
+             */
+            /*
+            -------------------------------------------------------
+              /**
+             * --------------------------------------------------
+             * @Referenced Planeta planeta;
+             * Es una referencia simple no usa List
+             * --------------------------------------------------
+             */
+            Boolean istListReferecendToPlaneta = false;
+            Document docPlaneta;
+            if (!istListReferecendToPlaneta) {
+                if (documentPlanetaList.isEmpty() || documentPlanetaList.size() == 0) {
+                } else {
+                    docPlaneta = documentPlanetaList.get(0);
+                    pais.setPlaneta(PlanetaSupplier.get(Planeta::new, docPlaneta));
+                }
+
+            } else {
+                /**
+                 * Lista de Referenciados Recorre cada elemento y lo carga en un
+                 * List<Entidad>
+                 * Luego lo asigna al atributo de la entidad superior Ejemplo de
+                 * Implementación
+                 */
+
+//                 List<Planeta> planetaList = new ArrayList<>();
+//                 if (docPlanetaList.isEmpty() || docPlanetaList.size() == 0) {
+//                    Test.warning("No hay registros de  planeta");
+//                } else {
+//                     docPlanetaList.forEach(varDoc -> {
+//                         planetaList.add(PlanetaSupplier.get(Planeta::new, varDoc));
+//                    });
+//                 }
+//                pais.setPlaneta(planetaList);
+            }
+
+            /**
+             * *
+             * Verifica la siguiente Referecncia
+             *
+             * @Referenced List<Ocenano> oceano; Determina que es una lista
+             * referenciada
+             */
+            Boolean istListReferecendToOceano = true;
+//            List<Document> docOceanoList = (List<Document>) document.get("oceano");
+            Document docOceano;
+            if (!istListReferecendToOceano) {
+
+//                if (docOceanoList.isEmpty() || docOceanoList.size() == 0) {
+//                    Test.warning("No hay registros de oceano");
+//                } else {
+//                    docOceano = docOceanoList.get(0);
+//                    pais.setOceano(OceanoSupplier.get(Oceano::new, docOceano));
+//                    Test.msgTab("docOceano obtenido:" + docOceano);
+//                }
+            } else {
+                /**
+                 * Lista de Referenciados Recorre cada elemento y lo carga en un
+                 * List<Entidad>
+                 * Luego lo asigna al atributo de la entidad superior
+                 */
+                List<Oceano> oceanoList = new ArrayList<>();
+                if (documentOceanoList.isEmpty() || documentOceanoList.size() == 0) {
+                    Test.warning("No hay registros de oceano");
+                } else {
+                    documentOceanoList.forEach(varDoc -> {
+                        oceanoList.add(OceanoSupplier.get(Oceano::new, varDoc));
+                    });
+                }
+                pais.setOceano(oceanoList);
+
+            }
+
+        } catch (Exception e) {
+            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return pais;
+
+    }
+// </editor-fold>
+
+    
 }

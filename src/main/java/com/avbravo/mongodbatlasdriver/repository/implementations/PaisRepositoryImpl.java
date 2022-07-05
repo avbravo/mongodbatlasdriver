@@ -196,7 +196,7 @@ public class PaisRepositoryImpl implements PaisRepository {
             }
 
         } catch (Exception e) {
-            System.out.println("findAll() " + e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
         return list;
     }
@@ -221,7 +221,7 @@ public class PaisRepositoryImpl implements PaisRepository {
             }
 
         } catch (Exception e) {
-            System.out.println("findAll() " + e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
         return list;
     }
@@ -240,7 +240,7 @@ public class PaisRepositoryImpl implements PaisRepository {
 //            Pais pais = jsonb.fromJson(doc.toJson(), Pais.class);
             return Optional.of(pais);
         } catch (Exception e) {
-            System.out.println("findById() " + e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return Optional.empty();

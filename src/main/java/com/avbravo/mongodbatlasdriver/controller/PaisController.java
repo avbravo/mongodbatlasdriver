@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.controller;
 
+import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.repository.PaisRepository;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class PaisController {
             list = paisRepository.findAll();
 
         } catch (Exception e) {
-            System.out.println("get() " + e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return list;

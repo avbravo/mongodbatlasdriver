@@ -4,7 +4,9 @@
  */
 package com.avbravo.mongodbatlasdriver.supplier;
 
+import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
+import java.util.List;
 import java.util.function.Supplier;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -25,17 +27,65 @@ public class PlanetaSupplier {
      * @param document
      * @return
      */
-
     public static Planeta get(Supplier<? extends Planeta> s, Document document) {
         Planeta planeta = s.get();
         try {
-/**
- * Es una entidad final
- */      
+            /**
+             * Entidad: Planeta
+             * Planeta{
+             *    // No tiene embedded ni @Referenced
+             * }
+             * 
+             * Nivel de Trabajo : 0
+             * 
+             * Esquema de Niveles:
+             * | Nivel 0|
+             *   Planeta
+             * 
+             */ 
+            
             Jsonb jsonb = JsonbBuilder.create();
             planeta = jsonb.fromJson(document.toJson(), Planeta.class);
         } catch (Exception e) {
-            System.out.println("PlanetaSupplier.get() " + e.getLocalizedMessage());
+           Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+        }
+        return planeta;
+
+    }
+// </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="Planeta get(Supplier<? extends Planeta> s,List<Document> documentList)">
+
+    /**
+     * Como es una clase que no tiene padres se puede implmentar JSON-B para
+     * convertirlo directamente a Objeto.
+     *Se invoca desde otro Supplier de nivel superior
+     *
+     *
+     * @param s
+     * @param documentList
+     * @return
+     */
+    public static Planeta get(Supplier<? extends Planeta> s, List<Document> documentList) {
+        Planeta planeta = s.get();
+        try {
+            Document document = documentList.get(0);
+             /**
+             * Entidad: Planeta
+             * Planeta{
+             *    // No tiene embedded ni @Referenced
+             * }
+             * 
+             * Nivel de Trabajo : 0
+             * 
+             * Esquema de Niveles:
+             * | Nivel 0|
+             *   Planeta
+             * 
+             */ 
+            Jsonb jsonb = JsonbBuilder.create();
+            planeta = jsonb.fromJson(document.toJson(), Planeta.class);
+        } catch (Exception e) {
+          Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
         return planeta;
 

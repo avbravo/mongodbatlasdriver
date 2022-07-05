@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
+import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
 import com.avbravo.mongodbatlasdriver.repository.PlanetaRepository;
 import com.avbravo.mongodbatlasdriver.supplier.PlanetaSupplier;
@@ -64,7 +65,7 @@ public class PlanetaRepositoryImpl implements PlanetaRepository {
             }
 
         } catch (Exception e) {
-            System.out.println("findAll() " + e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return list;
@@ -82,7 +83,7 @@ public class PlanetaRepositoryImpl implements PlanetaRepository {
 
             return Optional.of(planeta);
         } catch (Exception e) {
-            System.out.println("findById() " + e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return Optional.empty();

@@ -21,66 +21,54 @@ public class ProvinciaSupplier {
     public static Provincia get(Supplier<? extends Provincia> s, Document document) {
         Provincia provincia = s.get();
         try {
-            
-            Test.box("ProvinciaSupplier.get()");
-            Test.msgTab("ProvinciaSupplier.document.toJson()"+document.toJson());
+
             provincia.setIdprovincia(String.valueOf(document.get("idprovincia")));
             provincia.setProvincia(String.valueOf(document.get("provincia")));
-            
-            /**
-             * No es entidad final
-             * No tiene embebido simple
-             * No tiene Embedded List<>
-             * Tiene Referenced simple
-             */
 
-            
-            /**
-             * @Referenced
-             * Nota:
-             *     Las referencias generadas mediante lookup nos devuelven un List<>
-             *     Por lo tanto debemos verificar si es una entidad simple
-             *     o un @Referenced List<Entidad>
-             */
-            /*
-            -------------------------------------------------------
-         */
-    
-            aqui ya trae todos los documentos se pueden procesar
-                    
-            
-            // (if simple )
-            Test.box("Revisare los paises");
             Boolean isSimplePais = true;
-            List<Document> docPaisList = (List<Document>) document.get("pais");
-            Test.msgTab("Obtuve la lista");
+            /**
+             * Esto aplica para nivel 2 donde hay que conocer los padres que
+             * tiene Se debe conocer de la entidad de siguente nivel Pais cuales
+             * son sus referencias para pasarlos como List<Document>
+             * Provincia{
+             *
+             *       @Referenced Pais {
+             *                        @Referenced Planeta planeta;
+             *                        @Referenced List<Oceano> oceano;
+             *                        @Embedded Idioma idioma;
+             *                        @Embedded List<Musica> musica; 
+             *                        }
+             * }
+             * 
+             * Se puede observar que hay referencias de nivel 2:
+             * Nivel 2           Nivel 1    Nivel 0
+             *      Provincia --> Pais   -->@R Planeta
+             *      Provincia --> Pais   -->@R (List<Oceano>
+             *      Provincia --> Pais   -->@E (Idioma)
+             *      Provincia --> Pais   -->@E (List<Music>
+             *
+             */
+                     
+
+            List<Document> documentPaisList = (List<Document>) document.get("pais");
+            List<Document> documentPlanetaList = (List<Document>) document.get("planeta");
+            List<Document> docOceanoList = (List<Document>) document.get("oceano");
+
             Document docPais;
             if (isSimplePais) {
-
-                if (docPaisList.isEmpty() || docPaisList.size() == 0) {
-                    Test.warning("No hay registros de pais");
-                } else {
-                    Test.msgTab("Obteniendo el primer pais");
-                    docPais = docPaisList.get(0);
-                    Test.msgTab("docPais ="+docPais.toJson());
-                    Test.msgTab(" invocando a PaisSupplier.get()");
-                    provincia.setPais(PaisSupplier.get(Pais::new, docPais));
-                    Test.msgTab("docPais obtenido:" + docPais);
-                }
-
+                provincia.setPais(PaisSupplier.get(Pais::new, documentPaisList, documentPlanetaList, docOceanoList));
             } else {
-               // Esta seccion es para @Referenced List<>
-               
-               
+                // Esta seccion es para @Referenced List<>
+
             }
-            
 
         } catch (Exception e) {
-            System.out.println("ProvinciaSupplier.get() " + e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return provincia;
 
     }
 // </editor-fold>
+
 }

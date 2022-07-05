@@ -5,6 +5,7 @@
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
+import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
@@ -50,6 +51,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
 
       List<Provincia> list = new ArrayList<>();
         try {
+            ConsoleUtil.warning(Test.nameOfClassAndMethod()+ "findAll()");
             MongoDatabase database = mongoClient.getDatabase("world");
             MongoCollection<Document> collection = database.getCollection("provincia");
             /**
@@ -159,7 +161,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
             }
 
         } catch (Exception e) {
-            System.out.println("findAll() " + e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
         return list;
     }
@@ -176,7 +178,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
 
             return Optional.of(provincia);
         } catch (Exception e) {
-            System.out.println("findById() " + e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return Optional.empty();

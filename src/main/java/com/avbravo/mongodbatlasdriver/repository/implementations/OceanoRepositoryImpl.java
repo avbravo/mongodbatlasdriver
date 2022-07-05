@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
+import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.repository.OceanoRepository;
 import com.avbravo.mongodbatlasdriver.supplier.OceanoSupplier;
@@ -67,7 +68,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
             }
 
         } catch (Exception e) {
-            System.out.println("findAll() " + e.getLocalizedMessage());
+Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return list;
@@ -85,7 +86,7 @@ public class OceanoRepositoryImpl implements OceanoRepository {
 
             return Optional.of(oceano);
         } catch (Exception e) {
-            System.out.println("findById() " + e.getLocalizedMessage());
+          Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
 
         return Optional.empty();
