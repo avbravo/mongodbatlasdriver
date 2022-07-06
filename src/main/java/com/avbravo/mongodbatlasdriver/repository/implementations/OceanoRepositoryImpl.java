@@ -5,6 +5,7 @@
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
 import com.avbravo.jmoordb.core.util.Test;
+import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.repository.OceanoRepository;
 import com.avbravo.mongodbatlasdriver.supplier.OceanoSupplier;
@@ -28,8 +29,9 @@ import org.eclipse.microprofile.config.Config;
 @ApplicationScoped
 //@Stateless
 public class OceanoRepositoryImpl implements OceanoRepository {
-
-    // <editor-fold defaultstate="collapsed" desc="metodo">
+LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
+    
+    // <editor-fold defaultstate="collapsed" desc="@Inject">
 
     @Inject
     private Config config;
@@ -50,10 +52,11 @@ public class OceanoRepositoryImpl implements OceanoRepository {
      
             MongoCollection<Document> collection = database.getCollection("oceano");
 
-            /**
-             * Verifica si tiene clases @Referenciadas debe llamar los lookupSupplier
+               /**
+             * Es una entidad de nivel 0
+             * LookupSupplier.ZERO no usa lookup
+             * 
              */
-            
             
             MongoCursor<Document> cursor = collection.find().iterator();
             

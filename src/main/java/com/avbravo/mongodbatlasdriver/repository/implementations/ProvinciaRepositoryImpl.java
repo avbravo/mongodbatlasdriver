@@ -7,6 +7,7 @@ package com.avbravo.mongodbatlasdriver.repository.implementations;
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.jmoordb.core.util.Test;
+import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
 import com.avbravo.mongodbatlasdriver.repository.ProvinciaRepository;
@@ -54,6 +55,13 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
             ConsoleUtil.warning(Test.nameOfClassAndMethod()+ "findAll()");
             MongoDatabase database = mongoClient.getDatabase("world");
             MongoCollection<Document> collection = database.getCollection("provincia");
+            /**
+             * PROVINCIA es de nivel 2
+             * Nivel 2  Nivel 1  Nivel 0
+             * provincia --> pais--> planeta
+             * provincia --> pais--> oceano
+             */
+            
             /**
              * Analiza las referencias
              */
@@ -124,7 +132,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
              *        pais.idpais por lo que no pasa en false.
              */
 
-            List<Bson> pipelinePais= PaisLookupSupplier.get(Pais::new, paisReferenced, "pais",false);
+            List<Bson> pipelinePais= PaisLookupSupplier.get(Pais::new, paisReferenced, "pais",LookupSupplierLevel.TWO,false);
 
             if (pipelinePais.isEmpty() || pipelinePais.size() == 0) {
                 Test.msg("pipeLinePais.isEmpty()");

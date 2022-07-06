@@ -6,6 +6,7 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
+import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Corregimiento;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
@@ -20,7 +21,8 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class CorregimientoLookupSupplier {
-// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, Boolean applyFromNextLevel)">
+    LookupSupplierLevel levelLocal= LookupSupplierLevel.THREE;
+// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean applyFromNextLevel)">
 
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
@@ -32,7 +34,7 @@ public class CorregimientoLookupSupplier {
      * superiores : false aplica al superior del nivel superior
      * @return
      */
-    public static List<Bson> get(Supplier<? extends Corregimiento> s, Referenced referenced, String parent, Boolean... applyFromThisLevel) {
+    public static List<Bson> get(Supplier<? extends Corregimiento> s, Referenced referenced, String parent, LookupSupplierLevel level,Boolean... applyFromThisLevel) {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
@@ -42,7 +44,7 @@ public class CorregimientoLookupSupplier {
 
             }
 
-            list.add(LookupSupplier.get(referenced, parent, apply));
+            list.add(LookupSupplier.get(referenced, parent, level,apply));
 
             /**
              *
@@ -88,7 +90,7 @@ public class CorregimientoLookupSupplier {
                 }
             };
 
-            List<Bson> pipelineProvincia = ProvinciaLookupSupplier.get(Provincia::new, provinciaReferenced, parent, apply);
+            List<Bson> pipelineProvincia = ProvinciaLookupSupplier.get(Provincia::new, provinciaReferenced, parent,level, apply);
             if (pipelineProvincia.isEmpty() || pipelineProvincia.size() == 0) {
 
             } else {

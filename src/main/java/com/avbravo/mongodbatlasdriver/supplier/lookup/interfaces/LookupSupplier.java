@@ -6,6 +6,7 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
+import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
 import static com.mongodb.client.model.Aggregates.lookup;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -24,7 +25,7 @@ public class LookupSupplier {
     * @param applyFromThisLevel : true aplica desde este nivel en adelante
     * @return                   : false aplica desde el siguiente nivel en adelante.
     */
-    public static Bson get(Referenced referenced, String parent, Boolean... applyFromThisLevel) {
+    public static Bson get(Referenced referenced, String parent, LookupSupplierLevel level,Boolean... applyFromThisLevel) {
         Bson b = new Document();
 
         try {

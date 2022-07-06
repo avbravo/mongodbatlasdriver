@@ -7,6 +7,7 @@ package com.avbravo.mongodbatlasdriver.repository.implementations;
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.jmoordb.core.util.Test;
+import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
 import com.avbravo.mongodbatlasdriver.model.Corregimiento;
 import com.avbravo.mongodbatlasdriver.repository.CorregimientoRepository;
@@ -54,6 +55,16 @@ public class CorregimientoRepositoryImpl implements CorregimientoRepository {
         
             MongoDatabase database = mongoClient.getDatabase("world");
             MongoCollection<Document> collection = database.getCollection("corregimiento");
+            
+            /**
+             * corregimiento es de nivel 3
+             * Nivel 3           Nivel 2       Nivel 1   Nivel 0
+             * corregimiento --> provincia    --> pais --> planeta
+             * corregimiento --> provincia    --> pais --> oceano
+             *                   provincia.idprovincia -->provincia.pais.idpais-->pais.planeta.idplaneta
+             *                   provincia.idprovincia -->provincia.pais.idpais-->pais.ocenao.idoceano
+             * Observe que cambia de nivel1  a nivel 9
+             */
             /**
              * Analiza las referencias
              */
@@ -124,7 +135,7 @@ public class CorregimientoRepositoryImpl implements CorregimientoRepository {
              *        pais.idpais por lo que no pasa en false.
              */
 
-            List<Bson> pipelineProvincia= ProvinciaLookupSupplier.get(Provincia::new, provinciaReferenced, "provincia",false);
+            List<Bson> pipelineProvincia= ProvinciaLookupSupplier.get(Provincia::new, provinciaReferenced, "provincia",LookupSupplierLevel.THREE,false);
 
             if (pipelineProvincia.isEmpty() || pipelineProvincia.size() == 0) {
                 Test.msg("pipeLineProvincia.isEmpty()");

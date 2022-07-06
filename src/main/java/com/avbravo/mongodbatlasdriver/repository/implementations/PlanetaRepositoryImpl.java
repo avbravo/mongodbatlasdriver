@@ -51,7 +51,11 @@ public class PlanetaRepositoryImpl implements PlanetaRepository {
             MongoDatabase database = mongoClient.getDatabase("world");
      
             MongoCollection<Document> collection = database.getCollection("planeta");
-
+    /**
+             * Es una entidad de nivel 0
+             * LookupSupplier.ZERO no usa lookup
+             * 
+             */
             MongoCursor<Document> cursor = collection.find().iterator();
             
             Jsonb jsonb = JsonbBuilder.create();
@@ -77,6 +81,11 @@ public class PlanetaRepositoryImpl implements PlanetaRepository {
         try {
             MongoDatabase database = mongoClient.getDatabase("world");
             MongoCollection<Document> collection = database.getCollection("planeta");
+            /**
+             * Es una entidad de nivel 0
+             * LookupSupplier.ZERO no usa lookup
+             * 
+             */
             Document doc = collection.find(eq("idplaneta", id)).first();
            
             Planeta planeta = PlanetaSupplier.get(Planeta::new,doc);

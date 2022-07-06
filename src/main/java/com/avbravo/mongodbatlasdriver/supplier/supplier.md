@@ -15,6 +15,9 @@ Especificos:
 - Identificar si es de tipo simple o compuesto
 - Cuando es de nivel 2 o superior se debe obtener un List<Document> por cada entidad referenciada de los demàs niveles
 - Por ejemplo
+- Se debe usar el enum LookupLevel para indicar el nivel que sera pasado a los LookupSupplier
+- Cada LookupSupplier debe tener LookupSupplierLevel levelLocal= LookupSupplierLevel.THREE;
+  ese valor se debe comparar con el que le esta llegando.
 ```java
   Provincia {
     Pais{

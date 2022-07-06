@@ -6,6 +6,7 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
+import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class OceanoLookupSupplier {
-// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Oceano> s, Document document, String parent,Boolean... applyFromThisLevel)">
+// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Oceano> s, Document document, String parent,LookupSupplierLevel level,Boolean... applyFromThisLevel)">
 
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
@@ -30,7 +31,7 @@ public class OceanoLookupSupplier {
      * superiores : false aplica al superior del nivel superior
      * @return
      */
-    public static List<Bson> get(Supplier<? extends Oceano> s, Referenced referenced, String parent, Boolean... applyFromThisLevel) {
+    public static List<Bson> get(Supplier<? extends Oceano> s, Referenced referenced, String parent,LookupSupplierLevel level, Boolean... applyFromThisLevel) {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
@@ -40,7 +41,7 @@ public class OceanoLookupSupplier {
 
             }
 
-            list.add(LookupSupplier.get(referenced, parent, apply));
+            list.add(LookupSupplier.get(referenced, parent,level, apply));
 
             /**
              *

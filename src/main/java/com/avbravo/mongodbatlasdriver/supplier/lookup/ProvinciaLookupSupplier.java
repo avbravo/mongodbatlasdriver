@@ -6,6 +6,7 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
+import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
@@ -20,7 +21,8 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class ProvinciaLookupSupplier {
-// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, Boolean applyFromNextLevel)">
+    LookupSupplierLevel levelLocal= LookupSupplierLevel.TWO;
+// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean applyFromNextLevel)">
 
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
@@ -33,7 +35,7 @@ public class ProvinciaLookupSupplier {
      * @return
      */
 
-    public static List<Bson> get(Supplier<? extends Provincia> s, Referenced referenced, String parent,Boolean... applyFromThisLevel) {
+    public static List<Bson> get(Supplier<? extends Provincia> s, Referenced referenced, String parent,LookupSupplierLevel level, Boolean... applyFromThisLevel) {
        List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
@@ -44,7 +46,7 @@ public class ProvinciaLookupSupplier {
             }
 
 
-             list.add(LookupSupplier.get(referenced,parent, apply));
+             list.add(LookupSupplier.get(referenced,parent,level, apply));
              
 
             /**
@@ -91,7 +93,7 @@ public class ProvinciaLookupSupplier {
                 }
             };
  
-     List<Bson>  pipelinePais = PaisLookupSupplier.get(Pais::new, paisReferenced, parent, apply);
+     List<Bson>  pipelinePais = PaisLookupSupplier.get(Pais::new, paisReferenced, parent, level,apply);
               if(pipelinePais.isEmpty() || pipelinePais.size() == 0){
                   
               }else{

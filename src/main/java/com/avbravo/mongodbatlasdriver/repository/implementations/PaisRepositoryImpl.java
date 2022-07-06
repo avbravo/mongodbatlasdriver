@@ -6,6 +6,7 @@ package com.avbravo.mongodbatlasdriver.repository.implementations;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
+import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
@@ -57,6 +58,13 @@ public class PaisRepositoryImpl implements PaisRepository {
         try {
             MongoDatabase database = mongoClient.getDatabase("world");
             MongoCollection<Document> collection = database.getCollection("pais");
+            
+            /**
+             * PAIS es de nivel 1
+             * Nivel 1    Nivel 0
+             * Pais    -->Planeta
+             * Pais    -->Oceano
+             */
             /**
              * Analiza las referencias
              */
@@ -145,7 +153,7 @@ public class PaisRepositoryImpl implements PaisRepository {
             List<Bson> lookup = new ArrayList<>();
 
             Test.box(" Invocando PlanetaLookupSupplier");
-            List<Bson> pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced, "");
+            List<Bson> pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced, "",LookupSupplierLevel.ONE);
 
             if (pipelinePlaneta.isEmpty() || pipelinePlaneta.size() == 0) {
                 Test.msg("pipeLinePlaneta.isEmpty()");
@@ -159,7 +167,7 @@ public class PaisRepositoryImpl implements PaisRepository {
             Invocando OceanoLookup
              */
             Test.box(" Invocando OceanoLookupSupplier");
-            List<Bson> pipelineOceano = OceanoLookupSupplier.get(Oceano::new, oceanoReferenced, "");
+            List<Bson> pipelineOceano = OceanoLookupSupplier.get(Oceano::new, oceanoReferenced, "",LookupSupplierLevel.ONE);
 
             if (pipelineOceano.isEmpty() || pipelineOceano.size() == 0) {
                 Test.msg("pipeLineOceano.isEmpty()");
