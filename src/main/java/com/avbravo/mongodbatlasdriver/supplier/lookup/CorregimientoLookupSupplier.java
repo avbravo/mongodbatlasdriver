@@ -7,8 +7,11 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup;
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
+import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.mongodbatlasdriver.model.Corregimiento;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
+import static com.avbravo.mongodbatlasdriver.supplier.lookup.OceanoLookupSupplier.levelLocal;
+import static com.avbravo.mongodbatlasdriver.supplier.lookup.PaisLookupSupplier.levelLocal;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -21,8 +24,9 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class CorregimientoLookupSupplier {
-  // <editor-fold defaultstate="collapsed" desc="level">
-        LookupSupplierLevel levelLocal= LookupSupplierLevel.THREE;
+    // <editor-fold defaultstate="collapsed" desc="level">
+
+    static LookupSupplierLevel levelLocal = LookupSupplierLevel.THREE;
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean applyFromNextLevel)">
 
@@ -36,7 +40,7 @@ public class CorregimientoLookupSupplier {
      * superiores : false aplica al superior del nivel superior
      * @return
      */
-    public static List<Bson> get(Supplier<? extends Corregimiento> s, Referenced referenced, String parent, LookupSupplierLevel level,Boolean... applyFromThisLevel) {
+    public static List<Bson> get(Supplier<? extends Corregimiento> s, Referenced referenced, String parent, LookupSupplierLevel level, Boolean... applyFromThisLevel) {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
@@ -46,7 +50,7 @@ public class CorregimientoLookupSupplier {
 
             }
 
-            list.add(LookupSupplier.get(referenced, parent, level,apply));
+            list.add(LookupSupplier.get(referenced, parent, level, apply));
 
             /**
              *
@@ -56,9 +60,7 @@ public class CorregimientoLookupSupplier {
              * Esta aplica en false del lookup ya que genera a partir del
              * siguiente Aplica para el siguiente
              */
-            if (!apply) {
-                apply = Boolean.TRUE;
-            }
+           
 
             Referenced provinciaReferenced = new Referenced() {
                 @Override
@@ -91,8 +93,33 @@ public class CorregimientoLookupSupplier {
                     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
             };
+           /**
+             *
+             * Cada supplier debe verificar las clases @Referenciadas e invocar
+             * la superior
+             *
+             * Esta aplica en false del lookup ya que genera a partir del
+             * siguiente Aplica para el siguiente
+             */
+            if (!apply) {
+                apply = Boolean.TRUE;
+            }
+           /**
+             * Valida el nivel antes de invocar los referenciados
+             */
+            if (level == LookupSupplierLevel.ZERO || level == LookupSupplierLevel.ONE || level == LookupSupplierLevel.TWO) {
+                /**
+                 * Niveles 0, 1, 2 no se produce cambio
+                 */
+            } else {
+                if (Test.diference(level, levelLocal) >= 2) {
+                      ConsoleUtil.info("cambiando level and parent");
+                    level = Test.decrement(level);
+                    parent = referenced.from();
+                }
 
-            List<Bson> pipelineProvincia = ProvinciaLookupSupplier.get(Provincia::new, provinciaReferenced, parent,level, apply);
+            }
+            List<Bson> pipelineProvincia = ProvinciaLookupSupplier.get(Provincia::new, provinciaReferenced, parent, level, apply);
             if (pipelineProvincia.isEmpty() || pipelineProvincia.size() == 0) {
 
             } else {

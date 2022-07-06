@@ -8,6 +8,7 @@ import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Grupoprofesion;
+import static com.avbravo.mongodbatlasdriver.supplier.lookup.PaisLookupSupplier.levelLocal;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import org.bson.conversions.Bson;
  */
 public class GrupoprofesiomLookupSupplier {
        // <editor-fold defaultstate="collapsed" desc="level">
-        LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
+     static   LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Grupoprofesion> s, Document document, String parent, LookupSupplierLevel level,Boolean... applyFromThisLevel)">
 
@@ -58,6 +59,20 @@ public class GrupoprofesiomLookupSupplier {
              */
             if (!apply) {
                 apply = Boolean.TRUE;
+            }
+            /**
+             * Valida el nivel antes de invocar los referenciados
+             */
+            if (level == LookupSupplierLevel.ZERO || level == LookupSupplierLevel.ONE || level == LookupSupplierLevel.TWO) {
+                /**
+                 * Niveles 0, 1, 2 no se produce cambio
+                 */
+            } else {
+                if (Test.diference(level, levelLocal) > 2) {
+                    level = Test.decrement(level);
+                    parent = referenced.from();
+                }
+
             }
         } catch (Exception e) {
             Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());

@@ -7,7 +7,10 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup;
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
+import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
+import static com.avbravo.mongodbatlasdriver.supplier.lookup.CorregimientoLookupSupplier.levelLocal;
+import static com.avbravo.mongodbatlasdriver.supplier.lookup.ProvinciaLookupSupplier.levelLocal;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,7 @@ import org.bson.conversions.Bson;
  */
 public class PlanetaLookupSupplier {
      // <editor-fold defaultstate="collapsed" desc="level">
-        LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
+     static   LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean... applyFromThisLevel)">
 
@@ -39,6 +42,7 @@ public class PlanetaLookupSupplier {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
+              ConsoleUtil.info(Test.nameOfClassAndMethod() +"parent["+ parent+"] LookupSupplierLevel level = [0" + level + "] levelLocal[" + levelLocal + "]");
              Boolean apply = true;
             if (applyFromThisLevel.length != 0) {
                 apply = applyFromThisLevel[0];
@@ -48,7 +52,7 @@ public class PlanetaLookupSupplier {
 
             list.add(LookupSupplier.get(referenced,parent, level,apply));
 
-            /**
+             /**
              *
              * Cada supplier debe verificar las clases @Referenciadas e invocar
              * la superior
@@ -58,6 +62,21 @@ public class PlanetaLookupSupplier {
              */
             if (!apply) {
                 apply = Boolean.TRUE;
+            }
+           /**
+             * Valida el nivel antes de invocar los referenciados
+             */
+            if (level == LookupSupplierLevel.ZERO || level == LookupSupplierLevel.ONE || level == LookupSupplierLevel.TWO) {
+                /**
+                 * Niveles 0, 1, 2 no se produce cambio
+                 */
+            } else {
+                ConsoleUtil.normal("Test.diference(level, levelLocal) "+Test.diference(level, levelLocal));
+                if (Test.diference(level, levelLocal) >= 2) {
+                    level = Test.decrement(level);
+                    parent = referenced.from();
+                }
+
             }
         } catch (Exception e) {
            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
