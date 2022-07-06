@@ -6,7 +6,7 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
-import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import static com.mongodb.client.model.Aggregates.lookup;
 import org.bson.Document;
 import org.bson.conversions.Bson;

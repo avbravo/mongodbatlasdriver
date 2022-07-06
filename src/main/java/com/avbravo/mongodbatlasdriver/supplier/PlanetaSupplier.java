@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.supplier;
 
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
 import java.util.List;
@@ -17,6 +18,10 @@ import org.bson.Document;
  * @author avbravo
  */
 public class PlanetaSupplier {
+    // <editor-fold defaultstate="collapsed" desc="level">
+        LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
+// </editor-fold>
+    
 // <editor-fold defaultstate="collapsed" desc="Planeta get(Supplier<? extends Planeta> s, Document document)">
 
     /**

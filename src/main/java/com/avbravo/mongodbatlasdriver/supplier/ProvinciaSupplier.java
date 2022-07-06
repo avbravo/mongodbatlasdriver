@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.supplier;
 
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
@@ -17,7 +18,9 @@ import org.bson.Document;
  * @author avbravo
  */
 public class ProvinciaSupplier {
-
+    // <editor-fold defaultstate="collapsed" desc="level">
+        LookupSupplierLevel levelLocal= LookupSupplierLevel.TWO;
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Provincia get(Supplier<? extends Provincia> s, Document document)">
     public static Provincia get(Supplier<? extends Provincia> s, Document document) {
         Provincia provincia = s.get();
@@ -50,11 +53,11 @@ public class ProvinciaSupplier {
 
             List<Document> documentPaisList = (List<Document>) document.get("pais");
             List<Document> documentPlanetaList = (List<Document>) document.get("planeta");
-            List<Document> docOceanoList = (List<Document>) document.get("oceano");
+            List<Document> documentOceanoList = (List<Document>) document.get("oceano");
 
             Document docPais;
             if (!istListReferecendToPais) {
-                provincia.setPais(PaisSupplier.get(Pais::new, documentPaisList, documentPlanetaList, docOceanoList));
+                provincia.setPais(PaisSupplier.get(Pais::new, documentPaisList, documentPlanetaList, documentOceanoList));
             } else {
                 /**
                  * En nivel 2 no se permiten @Referenced List<Nivel1>

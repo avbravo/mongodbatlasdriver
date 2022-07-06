@@ -1,20 +1,11 @@
 
-# Supplier
+# LookupSupplier
 
 Objetivo:
  Su funcion es procesar los documentos enviados desde un cursor, como resultado de una consulta y devolverlos como una entidad.  
 
 Especificos:  
-- Se implementa el recorrido a cada entidad para identificar si tiene @Referenced dentro de el.
-- Si posee @References se deba crear dos metodos para su manejo.
-- Utiliza dos metodos get() uno con Document y otro con una List<Document>
-- El metodo get() con Document simple se invoca desde Repository de la misma entidad
-- El metodo get() con List<Document> es invocado desde otro Supplier de nivel inferior
-- Se generar parametros para cada entidad referenciada que tiene
-- Se debe identificar el nivel que tiene 
-- Identificar si es de tipo simple o compuesto
-- Cuando es de nivel 2 o superior se debe obtener un List<Document> por cada entidad referenciada de los demàs niveles
-- Por ejemplo
+- 
 - Se debe usar el enum LookupLevel para indicar el nivel que sera pasado a los LookupSupplier
 - Cada LookupSupplier debe tener LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
   ese valor se debe comparar con el que le esta llegando.

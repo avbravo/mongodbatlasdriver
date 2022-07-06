@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.supplier;
 
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Corregimiento;
@@ -17,7 +18,9 @@ import org.bson.Document;
  * @author avbravo
  */
 public class CorregimientoSupplier {
-
+  // <editor-fold defaultstate="collapsed" desc="level">
+        LookupSupplierLevel levelLocal= LookupSupplierLevel.THREE;
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Corregimiento get(Supplier<? extends Corregimiento> s, Document document)">
     public static Corregimiento get(Supplier<? extends Corregimiento> s, Document document) {
         Corregimiento corregimiento = s.get();

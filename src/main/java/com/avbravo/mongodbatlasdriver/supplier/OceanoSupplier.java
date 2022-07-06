@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.supplier;
 
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import java.util.List;
@@ -17,6 +18,9 @@ import org.bson.Document;
  * @author avbravo
  */
 public class OceanoSupplier {
+        // <editor-fold defaultstate="collapsed" desc="level">
+        LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
+// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Oceano get(Supplier<? extends Oceano> s, Document document)">
 
     /**

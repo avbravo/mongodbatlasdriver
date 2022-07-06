@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.supplier;
 
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Idioma;
 import com.avbravo.mongodbatlasdriver.model.Musica;
@@ -22,7 +23,9 @@ import org.bson.Document;
  * @author avbravo
  */
 public class PaisSupplier {
-
+    // <editor-fold defaultstate="collapsed" desc="level">
+        LookupSupplierLevel levelLocal= LookupSupplierLevel.ONE;
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Pais get(Supplier<? extends Pais> s, Document document)">
     public static Pais get(Supplier<? extends Pais> s, Document document) {
         Pais pais = s.get();

@@ -6,7 +6,7 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
-import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
@@ -22,7 +22,9 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class PaisLookupSupplier {
-    LookupSupplierLevel levelLocal= LookupSupplierLevel.ONE;
+     // <editor-fold defaultstate="collapsed" desc="level">
+        LookupSupplierLevel levelLocal= LookupSupplierLevel.ONE;
+// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent ,LookupSupplierLevel level,Boolean... applyFromThisLevel)">
 
     /**

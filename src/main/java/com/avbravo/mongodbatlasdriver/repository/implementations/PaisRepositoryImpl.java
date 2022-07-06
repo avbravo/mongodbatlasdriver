@@ -6,7 +6,7 @@ package com.avbravo.mongodbatlasdriver.repository.implementations;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
-import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
@@ -38,7 +38,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 //@Stateless
 public class PaisRepositoryImpl implements PaisRepository {
 
-    // <editor-fold defaultstate="collapsed" desc="metodo">
+    // <editor-fold defaultstate="collapsed" desc="  @Inject">
     @Inject
     private Config config;
 
@@ -152,7 +152,7 @@ public class PaisRepositoryImpl implements PaisRepository {
 
             List<Bson> lookup = new ArrayList<>();
 
-            Test.box(" Invocando PlanetaLookupSupplier");
+     
             List<Bson> pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced, "",LookupSupplierLevel.ONE);
 
             if (pipelinePlaneta.isEmpty() || pipelinePlaneta.size() == 0) {
@@ -166,7 +166,7 @@ public class PaisRepositoryImpl implements PaisRepository {
             /*
             Invocando OceanoLookup
              */
-            Test.box(" Invocando OceanoLookupSupplier");
+       
             List<Bson> pipelineOceano = OceanoLookupSupplier.get(Oceano::new, oceanoReferenced, "",LookupSupplierLevel.ONE);
 
             if (pipelineOceano.isEmpty() || pipelineOceano.size() == 0) {
@@ -195,7 +195,7 @@ public class PaisRepositoryImpl implements PaisRepository {
 
             try {
                 while (cursor.hasNext()) {
-                    Test.msg("cursor.next()");
+                
                     Pais pais = PaisSupplier.get(Pais::new, cursor.next());
                     list.add(pais);
                 }

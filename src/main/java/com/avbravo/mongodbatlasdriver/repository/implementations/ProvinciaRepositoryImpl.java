@@ -7,7 +7,7 @@ package com.avbravo.mongodbatlasdriver.repository.implementations;
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.jmoordb.core.util.Test;
-import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
 import com.avbravo.mongodbatlasdriver.repository.ProvinciaRepository;
@@ -152,7 +152,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
                 cursor = collection.find().iterator();
 
             } else {
-                Test.box("lookup en ProvinciaRepositoyyImpl: "+lookup.toString());
+               
                 
                 cursor = collection.aggregate(lookup).iterator();
       

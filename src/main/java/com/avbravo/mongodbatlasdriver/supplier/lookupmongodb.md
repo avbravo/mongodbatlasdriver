@@ -33,6 +33,7 @@ db.pais.aggregate(
 Lleva una referencia A->B->C
                      A->B->D
 Donde el lookup que genera debe incluir la coleccion de segundo nivel B.C
+No permite un @Referenced List<Nivel1>
 
 ## provincia -->pais --> planeta
                      --> oceano

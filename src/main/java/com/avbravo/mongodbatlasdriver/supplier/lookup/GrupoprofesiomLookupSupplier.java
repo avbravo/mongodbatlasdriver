@@ -6,7 +6,7 @@ package com.avbravo.mongodbatlasdriver.supplier.lookup;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
-import com.avbravo.mongodbatlasdriver.level.LookupSupplierLevel;
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Grupoprofesion;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.util.ArrayList;
@@ -19,6 +19,9 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class GrupoprofesiomLookupSupplier {
+       // <editor-fold defaultstate="collapsed" desc="level">
+        LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
+// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Grupoprofesion> s, Document document, String parent, LookupSupplierLevel level,Boolean... applyFromThisLevel)">
 
     /**
