@@ -35,7 +35,10 @@ import org.eclipse.microprofile.config.Config;
 @ApplicationScoped
 //@Stateless
 public class CorregimientoRepositoryImpl implements CorregimientoRepository {
+    // <editor-fold defaultstate="collapsed" desc="level">
 
+ LookupSupplierLevel levelLocal = LookupSupplierLevel.THREE;
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="@Inject">
 
     @Inject
@@ -135,7 +138,7 @@ public class CorregimientoRepositoryImpl implements CorregimientoRepository {
              *        pais.idpais por lo que no pasa en false.
              */
 
-            List<Bson> pipelineProvincia= ProvinciaLookupSupplier.get(Provincia::new, provinciaReferenced, "provincia",LookupSupplierLevel.THREE,false);
+            List<Bson> pipelineProvincia= ProvinciaLookupSupplier.get(Provincia::new, provinciaReferenced, "provincia",levelLocal,false);
 
             if (pipelineProvincia.isEmpty() || pipelineProvincia.size() == 0) {
                 Test.msg("pipeLineProvincia.isEmpty()");

@@ -248,3 +248,67 @@ db.corregimiento.aggregate(
 ]
 ).pretty()
 ```
+
+***
+# Referencia de 4 Nivel
+Lleva una referencia A->B->C
+                     A->B->D
+Donde el lookup que genera debe incluir la coleccion de segundo nivel B.C
+
+## -->persona-->corregimiento-->provincia -->pais --> planeta
+                     --> oceano
+4 -->3 (no cambia)
+3 -->2 (aplica corregimiento)
+2 -->1 (cambia provincia)
+1-->0  (cambia a pais)
+
+```json
+db.persona.aggregate(
+[
+  {
+    $lookup:{
+            from:"corregimiento",
+            localField:"corregimiento.idcorregimiento",
+            foreignField:"idcorregimiento",
+            as:"corregimiento"
+            }
+    },
+   {
+    $lookup:{
+            from:"provincia",
+            localField:"corregimiento.provincia.idprovincia",
+            foreignField:"idprovincia",
+            as:"provincia"
+            }
+    }
+,
+   {
+    $lookup:{
+            from:"pais",
+            localField:"provincia.pais.idpais",
+            foreignField:"idpais",
+            as:"pais"
+            }
+    }
+,
+{
+    $lookup:{
+            from:"planeta",
+            localField:"pais.planeta.idplaneta",
+            foreignField:"idplaneta",
+            as:"planeta"
+            }
+    }
+,
+{ 
+  $lookup:{
+            from:"oceano",
+            localField:"pais.oceano.idoceano",
+            foreignField:"idoceano",
+            as:"oceano"
+            }
+  }
+
+]
+).pretty()
+```

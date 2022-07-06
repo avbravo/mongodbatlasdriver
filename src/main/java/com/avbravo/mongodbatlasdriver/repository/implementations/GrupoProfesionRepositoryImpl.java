@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Grupoprofesion;
 import com.avbravo.mongodbatlasdriver.repository.GrupoprofesionRepository;
@@ -30,7 +31,9 @@ import org.eclipse.microprofile.config.Config;
 @ApplicationScoped
 //@Stateless
 public class GrupoProfesionRepositoryImpl implements GrupoprofesionRepository {
-
+      // <editor-fold defaultstate="collapsed" desc="level">
+     LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="@Inject">
 
     @Inject

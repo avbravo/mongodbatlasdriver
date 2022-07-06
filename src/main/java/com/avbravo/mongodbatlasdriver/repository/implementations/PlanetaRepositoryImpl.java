@@ -4,6 +4,7 @@
  */
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
+import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
 import com.avbravo.mongodbatlasdriver.repository.PlanetaRepository;
@@ -30,7 +31,9 @@ import org.eclipse.microprofile.config.Config;
 @ApplicationScoped
 //@Stateless
 public class PlanetaRepositoryImpl implements PlanetaRepository {
-
+    // <editor-fold defaultstate="collapsed" desc="level">
+        LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="@Inject">
 
     @Inject

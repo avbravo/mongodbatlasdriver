@@ -89,7 +89,7 @@ public class ProvinciaSupplier {
 
     }
 // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Provincia get(Supplier<? extends Provincia> s, Document document)">
+    // <editor-fold defaultstate="collapsed" desc="Provincia get(Supplier<? extends Provincia> s, List<Document> documentProvinciaList, List<Document> documentPaisList, List<Document> documentPlanetaList, List<Document> documentOceanoList)">
     public static Provincia get(Supplier<? extends Provincia> s, List<Document> documentProvinciaList, List<Document> documentPaisList, List<Document> documentPlanetaList, List<Document> documentOceanoList) {
         Provincia provincia = s.get();
         try {

@@ -9,10 +9,7 @@ import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.mongodbatlasdriver.model.Corregimiento;
-import com.avbravo.mongodbatlasdriver.model.Provincia;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.OceanoLookupSupplier.levelLocal;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.PaisLookupSupplier.levelLocal;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.ProvinciaLookupSupplier.levelLocal;
+import com.avbravo.mongodbatlasdriver.model.Persona;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -24,10 +21,10 @@ import org.bson.conversions.Bson;
  *
  * @author avbravo
  */
-public class CorregimientoLookupSupplier {
+public class PersonaLookupSupplier {
     // <editor-fold defaultstate="collapsed" desc="level">
 
-    static LookupSupplierLevel levelLocal = LookupSupplierLevel.THREE;
+    static LookupSupplierLevel levelLocal = LookupSupplierLevel.FOUR;
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean applyFromNextLevel)">
 
@@ -41,7 +38,7 @@ public class CorregimientoLookupSupplier {
      * superiores : false aplica al superior del nivel superior
      * @return
      */
-    public static List<Bson> get(Supplier<? extends Corregimiento> s, Referenced referenced, String parent, LookupSupplierLevel level, Boolean... applyFromThisLevel) {
+    public static List<Bson> get(Supplier<? extends Persona> s, Referenced referenced, String parent, LookupSupplierLevel level, Boolean... applyFromThisLevel) {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
@@ -64,25 +61,25 @@ public class CorregimientoLookupSupplier {
              */
            
 
-            Referenced provinciaReferenced = new Referenced() {
+            Referenced corregimientoReferenced = new Referenced() {
                 @Override
                 public String from() {
-                    return "provincia";
+                    return "corregimiento";
                 }
 
                 @Override
                 public String localField() {
-                    return "provincia.idprovincia";
+                    return "corregimiento.idcorregimiento";
                 }
 
                 @Override
                 public String foreignField() {
-                    return "idprovincia";
+                    return "idcorregimiento";
                 }
 
                 @Override
                 public String as() {
-                    return "provincia";
+                    return "corregimiento";
                 }
 
                 @Override
@@ -121,11 +118,11 @@ public class CorregimientoLookupSupplier {
                 }
 
             }
-            List<Bson> pipelineProvincia = ProvinciaLookupSupplier.get(Provincia::new, provinciaReferenced, parent, level, apply);
-            if (pipelineProvincia.isEmpty() || pipelineProvincia.size() == 0) {
+            List<Bson> pipelineCorregimiento = CorregimientoLookupSupplier.get(Corregimiento::new, corregimientoReferenced, parent, level, apply);
+            if (pipelineCorregimiento.isEmpty() || pipelineCorregimiento.size() == 0) {
 
             } else {
-                pipelineProvincia.forEach(b -> {
+                pipelineCorregimiento.forEach(b -> {
                     list.add(b);
                 });
             }

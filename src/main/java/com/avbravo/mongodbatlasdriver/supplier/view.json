@@ -1,29 +1,88 @@
-[{
-        "$lookup": {
-            "from": "provincia",
-            "localField": "provincia.idprovincia",
-            "foreignField": "idprovincia",
-            "as": "provincia"
-        }
-    }, {
-        "$lookup": {
-            "from": "pais",
-            "localField": "provincia.pais.idpais",
-            "foreignField": "idpais",
-            "as": "pais"
-        }
-    }, {
-        "$lookup": {
-            "from": "planeta",
-            "localField": "provincia.planeta.idplaneta",
-            "foreignField": "idplaneta",
-            "as": "planeta"
-        }
-    }, {
-        "$lookup": {
-            "from": "oceano",
-            "localField": "provincia.oceano.idoceano",
-            "foreignField": "idoceano",
-            "as": "oceano"
-        }
-    }]]
+[
+    {
+        "corregimiento": {
+            "corregimiento": "Santa Ana",
+            "idcorregimiento": "1",
+            "provincia": {
+                "idprovincia": "7",
+                "pais": {
+                    "idioma": {
+                        "idioma": "Español"
+                    },
+                    "idpais": "pa",
+                    "musica": [
+                        {
+                            "idmusica": "reggae",
+                            "musica": "Reggae"
+                        },
+                        {
+                            "idmusica": "tipico",
+                            "musica": "Tipico"
+                        }
+                    ],
+                    "oceano": [
+                        {
+                            "idoceano": "p",
+                            "oceano": "Pacífico"
+                        },
+                        {
+                            "idoceano": "a",
+                            "oceano": "Atlántico"
+                        }
+                    ],
+                    "pais": "Panama",
+                    "planeta": {
+                        "idplaneta": "tr",
+                        "planeta": "Tierra"
+                    }
+                },
+                "provincia": "Los Santos"
+            }
+        },
+        "idpersona": "1",
+        "nombre": "aris"
+    },
+    {
+        "corregimiento": {
+            "corregimiento": "San Miguelito",
+            "idcorregimiento": "2",
+            "provincia": {
+                "idprovincia": "8",
+                "pais": {
+                    "idioma": {
+                        "idioma": "English"
+                    },
+                    "idpais": "usa",
+                    "musica": [
+                        {
+                            "idmusica": "rock",
+                            "musica": "Rock"
+                        },
+                        {
+                            "idmusica": "metal",
+                            "musica": "Metal"
+                        }
+                    ],
+                    "oceano": [
+                        {
+                            "idoceano": "a",
+                            "oceano": "Atlántico"
+                        },
+                        {
+                            "idoceano": "gar",
+                            "oceano": "Oceano Glacial Artico"
+                        }
+                    ],
+                    "pais": "Estados Unidos",
+                    "planeta": {
+                        "idplaneta": "tr",
+                        "planeta": "Tierra"
+                    }
+                },
+                "provincia": "Pensilvania"
+            }
+        },
+        "idpersona": "2",
+        "nombre": "maria"
+    }
+]

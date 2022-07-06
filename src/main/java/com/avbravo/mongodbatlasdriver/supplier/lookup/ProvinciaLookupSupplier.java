@@ -10,8 +10,6 @@ import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.CorregimientoLookupSupplier.levelLocal;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.PaisLookupSupplier.levelLocal;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

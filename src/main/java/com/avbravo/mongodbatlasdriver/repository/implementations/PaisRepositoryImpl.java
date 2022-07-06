@@ -37,7 +37,9 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 //@Stateless
 public class PaisRepositoryImpl implements PaisRepository {
-
+    // <editor-fold defaultstate="collapsed" desc="level">
+        LookupSupplierLevel levelLocal= LookupSupplierLevel.ONE;
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="  @Inject">
     @Inject
     private Config config;
@@ -153,7 +155,7 @@ public class PaisRepositoryImpl implements PaisRepository {
             List<Bson> lookup = new ArrayList<>();
 
      
-            List<Bson> pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced, "",LookupSupplierLevel.ONE);
+            List<Bson> pipelinePlaneta = PlanetaLookupSupplier.get(Planeta::new, planetaReferenced, "",levelLocal);
 
             if (pipelinePlaneta.isEmpty() || pipelinePlaneta.size() == 0) {
                 Test.msg("pipeLinePlaneta.isEmpty()");
@@ -167,7 +169,7 @@ public class PaisRepositoryImpl implements PaisRepository {
             Invocando OceanoLookup
              */
        
-            List<Bson> pipelineOceano = OceanoLookupSupplier.get(Oceano::new, oceanoReferenced, "",LookupSupplierLevel.ONE);
+            List<Bson> pipelineOceano = OceanoLookupSupplier.get(Oceano::new, oceanoReferenced, "",levelLocal);
 
             if (pipelineOceano.isEmpty() || pipelineOceano.size() == 0) {
                 Test.msg("pipeLineOceano.isEmpty()");

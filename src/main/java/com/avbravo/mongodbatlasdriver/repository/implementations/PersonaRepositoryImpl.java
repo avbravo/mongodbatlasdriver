@@ -5,14 +5,13 @@
 package com.avbravo.mongodbatlasdriver.repository.implementations;
 
 import com.avbravo.jmoordb.core.annotation.Referenced;
-import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
-import com.avbravo.mongodbatlasdriver.model.Pais;
-import com.avbravo.mongodbatlasdriver.model.Provincia;
-import com.avbravo.mongodbatlasdriver.repository.ProvinciaRepository;
-import com.avbravo.mongodbatlasdriver.supplier.ProvinciaSupplier;
-import com.avbravo.mongodbatlasdriver.supplier.lookup.PaisLookupSupplier;
+import com.avbravo.mongodbatlasdriver.model.Corregimiento;
+import com.avbravo.mongodbatlasdriver.model.Persona;
+import com.avbravo.mongodbatlasdriver.repository.PersonaRepository;
+import com.avbravo.mongodbatlasdriver.supplier.PersonaSupplier;
+import com.avbravo.mongodbatlasdriver.supplier.lookup.CorregimientoLookupSupplier;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -34,9 +33,10 @@ import org.eclipse.microprofile.config.Config;
  */
 @ApplicationScoped
 //@Stateless
-public class ProvinciaRepositoryImpl implements ProvinciaRepository {
-   // <editor-fold defaultstate="collapsed" desc="level">
-        LookupSupplierLevel levelLocal= LookupSupplierLevel.TWO;
+public class PersonaRepositoryImpl implements PersonaRepository {
+    // <editor-fold defaultstate="collapsed" desc="level">
+
+    static LookupSupplierLevel levelLocal = LookupSupplierLevel.FOUR;
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="@Inject">
 
@@ -47,23 +47,26 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
     MongoClient mongoClient;
 // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="List<Provincia> findAll()">
+    // <editor-fold defaultstate="collapsed" desc="List<Persona> findAll()">
 
     @Override
-    public List<Provincia> findAll() {
+    public List<Persona> findAll() {
 
-      List<Provincia> list = new ArrayList<>();
+      List<Persona> list = new ArrayList<>();
         try {
-            ConsoleUtil.warning(Test.nameOfClassAndMethod()+ "findAll()");
+        
             MongoDatabase database = mongoClient.getDatabase("world");
-            MongoCollection<Document> collection = database.getCollection("provincia");
-            /**
-             * PROVINCIA es de nivel 2
-             * Nivel 2  Nivel 1  Nivel 0
-             * provincia --> pais--> planeta
-             * provincia --> pais--> oceano
-             */
+            MongoCollection<Document> collection = database.getCollection("persona");
             
+            /**
+             * persona es de nivel 3
+             * Nivel 3           Nivel 2       Nivel 1   Nivel 0
+             * persona --> provincia    --> pais --> planeta
+             * persona --> provincia    --> pais --> oceano
+             *                   provincia.idprovincia -->provincia.pais.idpais-->pais.planeta.idplaneta
+             *                   provincia.idprovincia -->provincia.pais.idpais-->pais.ocenao.idoceano
+             * Observe que cambia de nivel1  a nivel 9
+             */
             /**
              * Analiza las referencias
              */
@@ -76,7 +79,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
 //             Bson pipeline = lookup("planeta", "planeta.idplaneta", "idplaneta", "planeta");
 
             /**
-             * Aqui lee la entidad Pais y busca todas las references
+             * Aqui lee la entidad Provincia y busca todas las references
              *
              * @Referenced(from = "planeta",localField =
              * "idplaneta",foreignField = "idplaneta",as ="planeta") private
@@ -85,25 +88,25 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
              * Encontro Planeta asi que obtiene la clase y la referencia
              *
              */
-            Referenced paisReferenced = new Referenced() {
+            Referenced corregimientoReferenced = new Referenced() {
                 @Override
                 public String from() {
-                    return "pais";
+                    return "corregimiento";
                 }
 
                 @Override
                 public String localField() {
-                    return "pais.idpais";
+                    return "corregimiento.idcorregimiento";
                 }
 
                 @Override
                 public String foreignField() {
-                    return "idpais";
+                    return "idcorregimiento";
                 }
 
                 @Override
                 public String as() {
-                    return "pais";
+                    return "corregimiento";
                 }
 
                 @Override
@@ -123,23 +126,23 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
          
             /**
              * Tengo que analizar la clase y saber que hay dentro de el otras referencias
-             * por ejemplo provincia-->pais-->planeta (Planeta tiene referenciados dentro de el 
+             * por ejemplo persona-->pais-->planeta (Planeta tiene referenciados dentro de el 
              * asi que debe ser un parent para otros.
              * por eso se coloca alli
              */
             /**
-             * Tiene @Referenceed a Pais
-             *        Si se analiza Pais tiene @Referenced a Oceano y Planeta
+             * Tiene @Referenceed a Provincia
+             *        Si se analiza Provincia tiene @Referenced a Oceano y Planeta
              *        La busqueda del proximo nivel no aplica a pais.pais.idpais si no debe ser
              *        pais.idpais por lo que no pasa en false.
              */
 
-            List<Bson> pipelinePais= PaisLookupSupplier.get(Pais::new, paisReferenced, "pais",levelLocal,false);
+            List<Bson> pipelineCorregimiento= CorregimientoLookupSupplier.get(Corregimiento::new, corregimientoReferenced, "corregimiento",levelLocal,false);
 
-            if (pipelinePais.isEmpty() || pipelinePais.size() == 0) {
-                Test.msg("pipeLinePais.isEmpty()");
+            if (pipelineCorregimiento.isEmpty() || pipelineCorregimiento.size() == 0) {
+                Test.msg("pipeLineCorregimiento.isEmpty()");
             } else {
-                pipelinePais.forEach(b -> {
+                pipelineCorregimiento.forEach(b -> {
                     lookup.add(b);
                 });
             }
@@ -154,7 +157,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
                 cursor = collection.find().iterator();
 
             } else {
-               
+                Test.box("lookup en PersonaRepositoyyImpl: "+lookup.toString());
                 
                 cursor = collection.aggregate(lookup).iterator();
       
@@ -162,8 +165,8 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
 
             try {
                 while (cursor.hasNext()) {
-                    Provincia provincia = ProvinciaSupplier.get(Provincia::new, cursor.next());
-                    list.add(provincia);
+                    Persona persona = PersonaSupplier.get(Persona::new, cursor.next());
+                    list.add(persona);
                 }
             } finally {
                 cursor.close();
@@ -176,16 +179,16 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
     }
 // </editor-fold>
     @Override
-    public Optional<Provincia> findById(String id) {
+    public Optional<Persona> findById(String id) {
 
         try {
             MongoDatabase database = mongoClient.getDatabase("world");
-            MongoCollection<Document> collection = database.getCollection("provincia");
-            Document doc = collection.find(eq("idprovincia", id)).first();
+            MongoCollection<Document> collection = database.getCollection("persona");
+            Document doc = collection.find(eq("idpersona", id)).first();
            
-            Provincia provincia = ProvinciaSupplier.get(Provincia::new,doc);
+            Persona persona = PersonaSupplier.get(Persona::new,doc);
 
-            return Optional.of(provincia);
+            return Optional.of(persona);
         } catch (Exception e) {
             Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
         }
@@ -194,7 +197,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
     }
 
     @Override
-    public Provincia save(Provincia provincia) {
+    public Persona save(Persona persona) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -204,7 +207,7 @@ public class ProvinciaRepositoryImpl implements ProvinciaRepository {
     }
 
     @Override
-    public List<Provincia> findByProvincia(String contry) {
+    public List<Persona> findByPersona(String contry) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

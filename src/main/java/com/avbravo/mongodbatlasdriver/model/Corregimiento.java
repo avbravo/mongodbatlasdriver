@@ -21,7 +21,7 @@ public class Corregimiento {
     private String idcorregimiento;
     @Column
     private String corregimiento;
-    @Referenced(from = "provincia", localField = "corregimiento.idprovincia", foreignField = "idprovincia", as = "provincia")
+    @Referenced(from = "provincia", localField = "provincia.idprovincia", foreignField = "idprovincia", as = "provincia")
     private Provincia provincia;
 
     public Corregimiento() {
