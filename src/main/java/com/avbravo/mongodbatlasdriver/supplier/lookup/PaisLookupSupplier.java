@@ -11,8 +11,6 @@ import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.mongodbatlasdriver.model.Oceano;
 import com.avbravo.mongodbatlasdriver.model.Pais;
 import com.avbravo.mongodbatlasdriver.model.Planeta;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.CorregimientoLookupSupplier.levelLocal;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.ProvinciaLookupSupplier.levelLocal;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

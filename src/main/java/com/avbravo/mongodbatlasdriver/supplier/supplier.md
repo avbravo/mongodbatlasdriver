@@ -18,6 +18,12 @@ Especificos:
 - Se debe usar el enum LookupLevel para indicar el nivel que sera pasado a los LookupSupplier
 - Cada LookupSupplier debe tener LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
   ese valor se debe comparar con el que le esta llegando.
+- Para el segundo get() las reglas son:
+  1. Se debe pasar un List<Document> correspondientes a la misma entidad del supplier
+  2. Se deben pasar los List<Document> correspondientes a cada entidad @Referenced de todas las entidades relacioneadas con la entidad
+-- public static Provincia get(Supplier<? extends Provincia> s, List<Document> documentProvinciaList, List<Document> documentPaisList, List<Document> documentPlanetaList, List<Document> documentOceanoList) {
+}
+
 ```java
   Provincia {
     Pais{
