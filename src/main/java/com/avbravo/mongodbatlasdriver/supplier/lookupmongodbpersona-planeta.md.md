@@ -28,6 +28,8 @@ db.pais.aggregate(
 ]
 ).pretty()
 ```
+
+
 ***
 # Referencia de 2 Nivel
 Lleva una referencia A->B->C
