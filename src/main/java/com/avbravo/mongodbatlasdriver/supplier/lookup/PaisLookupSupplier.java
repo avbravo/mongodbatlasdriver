@@ -27,6 +27,18 @@ public class PaisLookupSupplier {
 
     static LookupSupplierLevel levelLocal = LookupSupplierLevel.ONE;
 // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="graphics">
+
+    /**
+     * Pais{
+     *
+     * @Referenced Planeta
+     * @Referenced Oceano
+     * @Embedded Idioma idioma;
+     * @Embedded List<Musica>; }
+     *
+     */
+// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent ,LookupSupplierLevel level,Boolean... applyFromThisLevel)">
 
     /**
@@ -43,7 +55,7 @@ public class PaisLookupSupplier {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
-           ConsoleUtil.info(Test.nameOfClassAndMethod() +"parent["+ parent+"] LookupSupplierLevel level = [0" + level + "] levelLocal[" + levelLocal + "]");
+            ConsoleUtil.info(Test.nameOfClassAndMethod() + "parent[" + parent + "] LookupSupplierLevel level = [0" + level + "] levelLocal[" + levelLocal + "]");
             Boolean apply = true;
             if (applyFromThisLevel.length != 0) {
                 apply = applyFromThisLevel[0];
@@ -52,7 +64,6 @@ public class PaisLookupSupplier {
 
             list.add(LookupSupplier.get(referenced, parent, level, apply));
 
-          
             Referenced planetaReferenced = new Referenced() {
                 @Override
                 public String from() {
@@ -115,8 +126,8 @@ public class PaisLookupSupplier {
                     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
             };
-           
-           /**
+
+            /**
              *
              * Cada supplier debe verificar las clases @Referenciadas e invocar
              * la superior
@@ -127,7 +138,7 @@ public class PaisLookupSupplier {
             if (!apply) {
                 apply = Boolean.TRUE;
             }
-           /**
+            /**
              * Valida el nivel antes de invocar los referenciados
              */
             if (level == LookupSupplierLevel.ZERO || level == LookupSupplierLevel.ONE || level == LookupSupplierLevel.TWO) {
@@ -135,7 +146,7 @@ public class PaisLookupSupplier {
                  * Niveles 0, 1, 2 no se produce cambio
                  */
             } else {
-                ConsoleUtil.normal("Test.diference(level, levelLocal) "+Test.diference(level, levelLocal));
+                ConsoleUtil.normal("Test.diference(level, levelLocal) " + Test.diference(level, levelLocal));
                 if (Test.diference(level, levelLocal) >= 2) {
                     ConsoleUtil.info("cambiando level and parent");
                     level = Test.decrement(level);

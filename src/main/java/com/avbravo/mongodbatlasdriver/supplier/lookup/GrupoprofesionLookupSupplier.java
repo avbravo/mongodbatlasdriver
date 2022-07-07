@@ -19,9 +19,16 @@ import org.bson.conversions.Bson;
  *
  * @author avbravo
  */
-public class GrupoprofesiomLookupSupplier {
-       // <editor-fold defaultstate="collapsed" desc="level">
-     static   LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
+public class GrupoprofesionLookupSupplier {
+    // <editor-fold defaultstate="collapsed" desc="level">
+
+    static LookupSupplierLevel levelLocal = LookupSupplierLevel.ZERO;
+// </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="graphics">
+
+    /**
+     * Grupopresion{ }
+     */
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Grupoprofesion> s, Document document, String parent, LookupSupplierLevel level,Boolean... applyFromThisLevel)">
 
@@ -29,25 +36,24 @@ public class GrupoprofesiomLookupSupplier {
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
      * convertirlo directamente a Objeto.
      *
-    *
+     *
      * @param s
      * @param document
-     * @param applyFromNextLevell : true  Aplica al siguiente nivel y a todos los superiores
-     *                            : false aplica al superior del nivel superior
+     * @param applyFromNextLevell : true Aplica al siguiente nivel y a todos los
+     * superiores : false aplica al superior del nivel superior
      * @return
      */
-    public static List<Bson> get(Supplier<? extends Grupoprofesion> s, Referenced referenced, String parent,LookupSupplierLevel level,Boolean... applyFromThisLevel) {
+    public static List<Bson> get(Supplier<? extends Grupoprofesion> s, Referenced referenced, String parent, LookupSupplierLevel level, Boolean... applyFromThisLevel) {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
-             Boolean apply = true;
+            Boolean apply = true;
             if (applyFromThisLevel.length != 0) {
                 apply = applyFromThisLevel[0];
 
             }
 
-
-            list.add(LookupSupplier.get(referenced,parent, level,apply));
+            list.add(LookupSupplier.get(referenced, parent, level, apply));
 
             /**
              *
@@ -75,7 +81,7 @@ public class GrupoprofesiomLookupSupplier {
 
             }
         } catch (Exception e) {
-            Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return list;

@@ -21,6 +21,20 @@ public class CorregimientoSupplier {
   // <editor-fold defaultstate="collapsed" desc="level">
         LookupSupplierLevel levelLocal= LookupSupplierLevel.THREE;
 // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="grephics">
+    /**
+     *
+     * Corregimiento{
+     *
+     * @Referenced Provincia{
+     * @Referenced Pais{
+     * @Referenced Planeta
+     * @Referenced Oceano
+     * @Embedded Idioma idioma;
+     * @Embedded List<Musica>; } } }
+     *
+     *
+     */
     // <editor-fold defaultstate="collapsed" desc="Corregimiento get(Supplier<? extends Corregimiento> s, Document document)">
     public static Corregimiento get(Supplier<? extends Corregimiento> s, Document document) {
         Corregimiento corregimiento = s.get();
@@ -41,7 +55,7 @@ ConsoleUtil.info(Test.nameOfClassAndMethod() + "Document.toJson()  "+document.to
              *                            @Referenced Planeta planeta;
              *                            @Referenced List<Oceano> oceano;
              *                            @Embedded Idioma idioma;
-             *                           @Embedded List<Musica> musica; 
+             *                            @Embedded List<Musica> musica; 
              *                        }            
              *             }         
              * }
@@ -76,16 +90,15 @@ ConsoleUtil.info(Test.nameOfClassAndMethod() + "Document.toJson()  "+document.to
                  * List<Entidad>
                  * Luego lo asigna al atributo de la entidad superior
                  */
-//                List<Pais> paisList = new ArrayList<>();
-//                if (documentPaisList.isEmpty() || documentPaisList.size() == 0) {
+//                List<Provincia> provinciaList = new ArrayList<>();
+//                if (documentProvinciaList.isEmpty() || documentProvinciaList.size() == 0) {
 //                    Test.warning("No hay registros de pais");
 //                } else {
-//                    documentPaisList.forEach(varDoc -> {
-//                       paisList.add(PaisSupplier.get(Pais::new, varDoc));
+//                    documentProvinciaList.forEach(varDoc -> {
+//                      provinciaList.add(ProvinciaSupplier.get(Provincia::new, varDoc));
 //                    });
 //                }
-//                provincia.setPais(paisList);
-
+//                corregimiento.setProvincia(provinciasList);
             }
 
         } catch (Exception e) {
@@ -153,15 +166,15 @@ ConsoleUtil.info(Test.nameOfClassAndMethod() + "Document.toJson()  "+document.to
                  * List<Entidad>
                  * Luego lo asigna al atributo de la entidad superior
                  */
-//                List<Pais> paisList = new ArrayList<>();
-//                if (documentPaisList.isEmpty() || documentPaisList.size() == 0) {
+//                List<Provincia> provinciaList = new ArrayList<>();
+//                if (documentProvinciaList.isEmpty() || documentProvinciaList.size() == 0) {
 //                    Test.warning("No hay registros de pais");
 //                } else {
-//                    documentPaisList.forEach(varDoc -> {
-//                       paisList.add(PaisSupplier.get(Pais::new, varDoc));
+//                    documentProvinciaList.forEach(varDoc -> {
+//                      provinciaList.add(ProvinciaSupplier.get(Provincia::new, varDoc));
 //                    });
 //                }
-//                provincia.setPais(paisList);
+//                corregimiento.setProvincia(provinciasList);
 
             }
 

@@ -10,9 +10,6 @@ import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.jmoordb.core.util.ConsoleUtil;
 import com.avbravo.mongodbatlasdriver.model.Corregimiento;
 import com.avbravo.mongodbatlasdriver.model.Provincia;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.OceanoLookupSupplier.levelLocal;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.PaisLookupSupplier.levelLocal;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.ProvinciaLookupSupplier.levelLocal;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -29,9 +26,28 @@ public class CorregimientoLookupSupplier {
 
     static LookupSupplierLevel levelLocal = LookupSupplierLevel.THREE;
 // </editor-fold>
-// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean applyFromNextLevel)">
 
+    // <editor-fold defaultstate="collapsed" desc="grephics">
     /**
+     *
+     * Corregimiento{
+     *
+     * @Referenced Provincia{
+     * @Referenced Pais{
+     * @Referenced Planeta
+     * @Referenced Oceano
+     * @Embedded Idioma idioma;
+     * @Embedded List<Musica>; } } }
+     *
+     *
+     */
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="List<Bson>
+    /*
+     * get(Supplier<? extends Planeta> s, Document document, String parent,
+     * LookupSupplierLevel level,Boolean applyFromNextLevel)">
+     *
+     * /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
      * convertirlo directamente a Objeto.
      *
@@ -45,7 +61,7 @@ public class CorregimientoLookupSupplier {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
-             ConsoleUtil.info(Test.nameOfClassAndMethod() +"parent["+ parent+"] LookupSupplierLevel level = [0" + level + "] levelLocal[" + levelLocal + "]");
+            ConsoleUtil.info(Test.nameOfClassAndMethod() + "parent[" + parent + "] LookupSupplierLevel level = [0" + level + "] levelLocal[" + levelLocal + "]");
             Boolean apply = true;
             if (applyFromThisLevel.length != 0) {
                 apply = applyFromThisLevel[0];
@@ -62,8 +78,6 @@ public class CorregimientoLookupSupplier {
              * Esta aplica en false del lookup ya que genera a partir del
              * siguiente Aplica para el siguiente
              */
-           
-
             Referenced provinciaReferenced = new Referenced() {
                 @Override
                 public String from() {
@@ -95,7 +109,7 @@ public class CorregimientoLookupSupplier {
                     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
             };
-           /**
+            /**
              *
              * Cada supplier debe verificar las clases @Referenciadas e invocar
              * la superior
@@ -106,7 +120,7 @@ public class CorregimientoLookupSupplier {
             if (!apply) {
                 apply = Boolean.TRUE;
             }
-           /**
+            /**
              * Valida el nivel antes de invocar los referenciados
              */
             if (level == LookupSupplierLevel.ZERO || level == LookupSupplierLevel.ONE || level == LookupSupplierLevel.TWO) {
@@ -115,7 +129,7 @@ public class CorregimientoLookupSupplier {
                  */
             } else {
                 if (Test.diference(level, levelLocal) >= 2) {
-                      ConsoleUtil.info("cambiando level and parent");
+                    ConsoleUtil.info("cambiando level and parent");
                     level = Test.decrement(level);
                     parent = referenced.from();
                 }

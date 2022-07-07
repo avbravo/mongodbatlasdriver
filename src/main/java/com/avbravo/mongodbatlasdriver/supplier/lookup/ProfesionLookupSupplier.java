@@ -8,10 +8,10 @@ import com.avbravo.jmoordb.core.annotation.Referenced;
 import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.jmoordb.core.util.ConsoleUtil;
-import com.avbravo.mongodbatlasdriver.model.Oceano;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.PaisLookupSupplier.levelLocal;
-import static com.avbravo.mongodbatlasdriver.supplier.lookup.ProvinciaLookupSupplier.levelLocal;
+import com.avbravo.mongodbatlasdriver.model.Grupoprofesion;
+import com.avbravo.mongodbatlasdriver.model.Profesion;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.interfaces.LookupSupplier;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -21,19 +21,20 @@ import org.bson.conversions.Bson;
  *
  * @author avbravo
  */
-public class OceanoLookupSupplier {
+public class ProfesionLookupSupplier {
     // <editor-fold defaultstate="collapsed" desc="level">
 
-    static LookupSupplierLevel levelLocal = LookupSupplierLevel.ZERO;
+    static LookupSupplierLevel levelLocal = LookupSupplierLevel.ONE;
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="graphics">
 
     /**
-     * Ocenao{ }
+     * Profesion{
+     *
+     * @Referenced Grupopresion{ } }
      */
 // </editor-fold>
-// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Oceano> s, Document document, String parent,LookupSupplierLevel level,Boolean... applyFromThisLevel)">
-
+// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean applyFromNextLevel)">
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
      * convertirlo directamente a Objeto.
@@ -44,7 +45,7 @@ public class OceanoLookupSupplier {
      * superiores : false aplica al superior del nivel superior
      * @return
      */
-    public static List<Bson> get(Supplier<? extends Oceano> s, Referenced referenced, String parent, LookupSupplierLevel level, Boolean... applyFromThisLevel) {
+    public static List<Bson> get(Supplier<? extends Profesion> s, Referenced referenced, String parent, LookupSupplierLevel level, Boolean... applyFromThisLevel) {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
@@ -65,6 +66,45 @@ public class OceanoLookupSupplier {
              * Esta aplica en false del lookup ya que genera a partir del
              * siguiente Aplica para el siguiente
              */
+            Referenced grupoprofesionReferenced = new Referenced() {
+                @Override
+                public String from() {
+                    return "grupoprofesion";
+                }
+
+                @Override
+                public String localField() {
+                    return "grupoprofesion.idgrupoprofesion";
+                }
+
+                @Override
+                public String foreignField() {
+                    return "idgrupoprofesion";
+                }
+
+                @Override
+                public String as() {
+                    return "grupoprofesion";
+                }
+
+                @Override
+                public boolean lazy() {
+                    return false;
+                }
+
+                @Override
+                public Class<? extends Annotation> annotationType() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+            };
+            /**
+             *
+             * Cada supplier debe verificar las clases @Referenciadas e invocar
+             * la superior
+             *
+             * Esta aplica en false del lookup ya que genera a partir del
+             * siguiente Aplica para el siguiente
+             */
             if (!apply) {
                 apply = Boolean.TRUE;
             }
@@ -76,12 +116,20 @@ public class OceanoLookupSupplier {
                  * Niveles 0, 1, 2 no se produce cambio
                  */
             } else {
-                ConsoleUtil.normal("Test.diference(level, levelLocal) " + Test.diference(level, levelLocal));
-                if (Test.diference(level, levelLocal) > 2) {
+                if (Test.diference(level, levelLocal) >= 2) {
+                    ConsoleUtil.info("cambiando level and parent");
                     level = Test.decrement(level);
                     parent = referenced.from();
                 }
 
+            }
+            List<Bson> pipelineGrupoprofesion = GrupoprofesionLookupSupplier.get(Grupoprofesion::new, grupoprofesionReferenced, parent, level, apply);
+            if (pipelineGrupoprofesion.isEmpty() || pipelineGrupoprofesion.size() == 0) {
+
+            } else {
+                pipelineGrupoprofesion.forEach(b -> {
+                    list.add(b);
+                });
             }
 
         } catch (Exception e) {
@@ -92,4 +140,5 @@ public class OceanoLookupSupplier {
 
     }
 // </editor-fold>
+
 }

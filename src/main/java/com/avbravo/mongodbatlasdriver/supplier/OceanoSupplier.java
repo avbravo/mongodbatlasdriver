@@ -21,6 +21,12 @@ public class OceanoSupplier {
         // <editor-fold defaultstate="collapsed" desc="level">
         LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
 // </editor-fold>
+           // <editor-fold defaultstate="collapsed" desc="graphics">
+
+    /**
+     * Ocenao{ }
+     */
+// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Oceano get(Supplier<? extends Oceano> s, Document document)">
 
     /**

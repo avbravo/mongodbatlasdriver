@@ -8,7 +8,6 @@ import com.avbravo.jmoordb.core.annotation.Column;
 import com.avbravo.jmoordb.core.annotation.Entity;
 import com.avbravo.jmoordb.core.annotation.Id;
 import com.avbravo.jmoordb.core.annotation.Referenced;
-import java.util.List;
 
 /**
  *
@@ -23,6 +22,8 @@ public class Persona {
     private String nombre;
     @Referenced(from = "corregimiento", localField = "corregimiento.idcorregimiento", foreignField = "idcorregimiento", as = "corregimiento")
     private Corregimiento corregimiento;
+    @Referenced(from = "profesion", localField = "profesion.idprofesion", foreignField = "idprofesion", as = "profesion")
+    private Profesion profesion;
 
     public Persona() {
     }
@@ -49,6 +50,14 @@ public class Persona {
 
     public void setCorregimiento(Corregimiento corregimiento) {
         this.corregimiento = corregimiento;
+    }
+
+    public Profesion getProfesion() {
+        return profesion;
+    }
+
+    public void setProfesion(Profesion profesion) {
+        this.profesion = profesion;
     }
 
     

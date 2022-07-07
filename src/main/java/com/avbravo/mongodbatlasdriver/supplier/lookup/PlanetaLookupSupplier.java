@@ -22,8 +22,15 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public class PlanetaLookupSupplier {
-     // <editor-fold defaultstate="collapsed" desc="level">
-     static   LookupSupplierLevel levelLocal= LookupSupplierLevel.ZERO;
+    // <editor-fold defaultstate="collapsed" desc="level">
+
+    static LookupSupplierLevel levelLocal = LookupSupplierLevel.ZERO;
+// </editor-fold>
+        // <editor-fold defaultstate="collapsed" desc="graphics">
+    /**
+             * Planeta{      
+             *        }
+             */ 
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean... applyFromThisLevel)">
 
@@ -31,28 +38,30 @@ public class PlanetaLookupSupplier {
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
      * convertirlo directamente a Objeto.
      *
-    *
+     *
      * @param s
      * @param document
-     * @param applyFromNextLevell : true  Aplica al siguiente nivel y a todos los superiores
-     *                            : false aplica al superior del nivel superior
+     * @param applyFromNextLevell : true Aplica al siguiente nivel y a todos los
+     * superiores : false aplica al superior del nivel superior
      * @return
      */
-    public static List<Bson> get(Supplier<? extends Planeta> s, Referenced referenced, String parent,LookupSupplierLevel level,Boolean... applyFromThisLevel) {
+    public static List<Bson> get(Supplier<? extends Planeta> s, Referenced referenced, String parent, LookupSupplierLevel level, Boolean... applyFromThisLevel) {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
-              ConsoleUtil.info(Test.nameOfClassAndMethod() +"parent["+ parent+"] LookupSupplierLevel level = [0" + level + "] levelLocal[" + levelLocal + "]");
-             Boolean apply = true;
+            ConsoleUtil.info(Test.nameOfClassAndMethod() + "parent[" + parent + "] LookupSupplierLevel level = [0" + level + "] levelLocal[" + levelLocal + "]");
+            Boolean apply = true;
             if (applyFromThisLevel.length != 0) {
                 apply = applyFromThisLevel[0];
 
             }
 
-
-            list.add(LookupSupplier.get(referenced,parent, level,apply));
-
-             /**
+            list.add(LookupSupplier.get(referenced, parent, level, apply));
+            /**
+             *Planeta{
+             * }
+             */
+            /**
              *
              * Cada supplier debe verificar las clases @Referenciadas e invocar
              * la superior
@@ -63,7 +72,7 @@ public class PlanetaLookupSupplier {
             if (!apply) {
                 apply = Boolean.TRUE;
             }
-           /**
+            /**
              * Valida el nivel antes de invocar los referenciados
              */
             if (level == LookupSupplierLevel.ZERO || level == LookupSupplierLevel.ONE || level == LookupSupplierLevel.TWO) {
@@ -71,7 +80,7 @@ public class PlanetaLookupSupplier {
                  * Niveles 0, 1, 2 no se produce cambio
                  */
             } else {
-                ConsoleUtil.normal("Test.diference(level, levelLocal) "+Test.diference(level, levelLocal));
+                ConsoleUtil.normal("Test.diference(level, levelLocal) " + Test.diference(level, levelLocal));
                 if (Test.diference(level, levelLocal) >= 2) {
                     level = Test.decrement(level);
                     parent = referenced.from();
@@ -79,7 +88,7 @@ public class PlanetaLookupSupplier {
 
             }
         } catch (Exception e) {
-           Test.error(Test.nameOfClassAndMethod() + " "+e.getLocalizedMessage());
+            Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return list;

@@ -26,8 +26,21 @@ public class ProvinciaLookupSupplier {
 
     static LookupSupplierLevel levelLocal = LookupSupplierLevel.TWO;
 // </editor-fold>
-// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean applyFromNextLevel)">
+    // <editor-fold defaultstate="collapsed" desc="graphics">
 
+    /**
+     *
+     * Provincia{
+     *
+     * @Referenced Pais{
+     * @Referenced Planeta
+     * @Referenced Oceano
+     * @Embedded Idioma idioma;
+     * @Embedded List<Musica>; } }
+     *
+     */
+// </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean applyFromNextLevel)">
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
      * convertirlo directamente a Objeto.
@@ -42,7 +55,7 @@ public class ProvinciaLookupSupplier {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
-            ConsoleUtil.info(Test.nameOfClassAndMethod() +"parent["+ parent+"] LookupSupplierLevel level = [0" + level + "] levelLocal[" + levelLocal + "]");
+            ConsoleUtil.info(Test.nameOfClassAndMethod() + "parent[" + parent + "] LookupSupplierLevel level = [0" + level + "] levelLocal[" + levelLocal + "]");
             Boolean apply = true;
             if (applyFromThisLevel.length != 0) {
                 apply = applyFromThisLevel[0];
@@ -50,8 +63,6 @@ public class ProvinciaLookupSupplier {
             }
 
             list.add(LookupSupplier.get(referenced, parent, level, apply));
-
-           
 
             Referenced paisReferenced = new Referenced() {
                 @Override
@@ -85,7 +96,7 @@ public class ProvinciaLookupSupplier {
                 }
             };
 
-           /**
+            /**
              *
              * Cada supplier debe verificar las clases @Referenciadas e invocar
              * la superior
@@ -96,7 +107,7 @@ public class ProvinciaLookupSupplier {
             if (!apply) {
                 apply = Boolean.TRUE;
             }
-           /**
+            /**
              * Valida el nivel antes de invocar los referenciados
              */
             if (level == LookupSupplierLevel.ZERO || level == LookupSupplierLevel.ONE || level == LookupSupplierLevel.TWO) {
@@ -104,9 +115,9 @@ public class ProvinciaLookupSupplier {
                  * Niveles 0, 1, 2 no se produce cambio
                  */
             } else {
-                ConsoleUtil.normal("Test.diference(level, levelLocal) "+Test.diference(level, levelLocal));
+                ConsoleUtil.normal("Test.diference(level, levelLocal) " + Test.diference(level, levelLocal));
                 if (Test.diference(level, levelLocal) >= 2) {
-                      ConsoleUtil.info("cambiando level and parent");
+                    ConsoleUtil.info("cambiando level and parent");
                     level = Test.decrement(level);
                     parent = referenced.from();
                 }

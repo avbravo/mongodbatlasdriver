@@ -26,8 +26,23 @@ public class PersonaLookupSupplier {
 
     static LookupSupplierLevel levelLocal = LookupSupplierLevel.FOUR;
 // </editor-fold>
-// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean applyFromNextLevel)">
+    // <editor-fold defaultstate="collapsed" desc="graphics">
 
+    /**
+     * Persona{
+     *
+     * @Referenced Corregimiento{
+     * @Referenced Provincia{
+     * @Referenced Pais{
+     * @Referenced Planeta
+     * @Referenced Oceano
+     * @Embedded Idioma idioma;
+     * @Embedded List<Musica>; } } }
+     * @Referenced Profesion{
+     * @Referenced Grupopresion{ } }
+     */
+// </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="List<Bson> get(Supplier<? extends Planeta> s, Document document, String parent, LookupSupplierLevel level,Boolean applyFromNextLevel)">
     /**
      * Como es una clase que no tiene padres se puede implmentar JSON-B para
      * convertirlo directamente a Objeto.
@@ -42,7 +57,7 @@ public class PersonaLookupSupplier {
         List<Bson> list = new ArrayList<>();
         Bson pipeline;
         try {
-             ConsoleUtil.info(Test.nameOfClassAndMethod() +"parent["+ parent+"] LookupSupplierLevel level = [0" + level + "] levelLocal[" + levelLocal + "]");
+            ConsoleUtil.info(Test.nameOfClassAndMethod() + "parent[" + parent + "] LookupSupplierLevel level = [0" + level + "] levelLocal[" + levelLocal + "]");
             Boolean apply = true;
             if (applyFromThisLevel.length != 0) {
                 apply = applyFromThisLevel[0];
@@ -51,7 +66,7 @@ public class PersonaLookupSupplier {
 
             list.add(LookupSupplier.get(referenced, parent, level, apply));
 
-            /**
+            /*
              *
              * Cada supplier debe verificar las clases @Referenciadas e invocar
              * la superior
@@ -59,8 +74,6 @@ public class PersonaLookupSupplier {
              * Esta aplica en false del lookup ya que genera a partir del
              * siguiente Aplica para el siguiente
              */
-           
-
             Referenced corregimientoReferenced = new Referenced() {
                 @Override
                 public String from() {
@@ -92,7 +105,40 @@ public class PersonaLookupSupplier {
                     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
             };
-           /**
+
+            Referenced profesionReferenced = new Referenced() {
+                @Override
+                public String from() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public String localField() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public String foreignField() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public String as() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public boolean lazy() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public Class<? extends Annotation> annotationType() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+            };
+            /**
              *
              * Cada supplier debe verificar las clases @Referenciadas e invocar
              * la superior
@@ -103,7 +149,7 @@ public class PersonaLookupSupplier {
             if (!apply) {
                 apply = Boolean.TRUE;
             }
-           /**
+            /**
              * Valida el nivel antes de invocar los referenciados
              */
             if (level == LookupSupplierLevel.ZERO || level == LookupSupplierLevel.ONE || level == LookupSupplierLevel.TWO) {
@@ -112,7 +158,7 @@ public class PersonaLookupSupplier {
                  */
             } else {
                 if (Test.diference(level, levelLocal) >= 2) {
-                      ConsoleUtil.info("cambiando level and parent");
+                    ConsoleUtil.info("cambiando level and parent");
                     level = Test.decrement(level);
                     parent = referenced.from();
                 }

@@ -21,6 +21,20 @@ public class ProvinciaSupplier {
     // <editor-fold defaultstate="collapsed" desc="level">
         LookupSupplierLevel levelLocal= LookupSupplierLevel.TWO;
 // </editor-fold>
+            // <editor-fold defaultstate="collapsed" desc="graphics">
+
+    /**
+     *
+     * Provincia{
+     *
+     * @Referenced Pais{
+     * @Referenced Planeta
+     * @Referenced Oceano
+     * @Embedded Idioma idioma;
+     * @Embedded List<Musica>; } }
+     *
+     */
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Provincia get(Supplier<? extends Provincia> s, Document document)">
     public static Provincia get(Supplier<? extends Provincia> s, Document document) {
         Provincia provincia = s.get();
@@ -37,11 +51,12 @@ public class ProvinciaSupplier {
              * son sus referencias para pasarlos como List<Document>
              * Provincia{
              *
-             * @Referenced Pais {
-             * @Referenced Planeta planeta;
-             * @Referenced List<Oceano> oceano;
-             * @Embedded Idioma idioma;
-             * @Embedded List<Musica> musica; } }
+             *      @Referenced Pais {
+             *                  @Referenced Planeta planeta;
+             *                  @Referenced List<Oceano> oceano;
+             *                  @Embedded Idioma idioma;
+             **                 @Embedded List<Musica> musica; }
+             * }
              *
              * Se puede observar que hay referencias de nivel 2: Nivel 2 Nivel 1
              * Nivel 0 Provincia --> Pais -->@R Planeta Provincia --> Pais -->@R
@@ -103,14 +118,14 @@ public class ProvinciaSupplier {
              * Esto aplica para nivel 2 donde hay que conocer los padres que
              * tiene Se debe conocer de la entidad de siguente nivel Pais cuales
              * son sus referencias para pasarlos como List<Document>
-             * Provincia{
+            * Provincia{
              *
-             * @Referenced Pais {
-             * @Referenced Planeta planeta;
-             * @Referenced List<Oceano> oceano;
-             * @Embedded Idioma idioma;
-             * @Embedded List<Musica> musica; } }
-             *
+             *      @Referenced Pais {
+             *                  @Referenced Planeta planeta;
+             *                  @Referenced List<Oceano> oceano;
+             *                  @Embedded Idioma idioma;
+             **                 @Embedded List<Musica> musica; }
+             * }
              * Se puede observar que hay referencias de nivel 2: Nivel 2 Nivel 1
              * Nivel 0 Provincia --> Pais -->@R Planeta Provincia --> Pais -->@R
              * (List<Oceano>

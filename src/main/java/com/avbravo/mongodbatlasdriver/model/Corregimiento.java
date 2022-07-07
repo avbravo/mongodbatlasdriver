@@ -8,7 +8,6 @@ import com.avbravo.jmoordb.core.annotation.Column;
 import com.avbravo.jmoordb.core.annotation.Entity;
 import com.avbravo.jmoordb.core.annotation.Id;
 import com.avbravo.jmoordb.core.annotation.Referenced;
-import java.util.List;
 
 /**
  *

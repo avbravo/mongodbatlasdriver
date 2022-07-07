@@ -26,6 +26,18 @@ public class PaisSupplier {
     // <editor-fold defaultstate="collapsed" desc="level">
         LookupSupplierLevel levelLocal= LookupSupplierLevel.ONE;
 // </editor-fold>
+         // <editor-fold defaultstate="collapsed" desc="graphics">
+
+    /**
+     * Pais{
+     *
+     * @Referenced Planeta
+     * @Referenced Oceano
+     * @Embedded Idioma idioma;
+     * @Embedded List<Musica>; }
+     *
+     */
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Pais get(Supplier<? extends Pais> s, Document document)">
     public static Pais get(Supplier<? extends Pais> s, Document document) {
         Pais pais = s.get();
