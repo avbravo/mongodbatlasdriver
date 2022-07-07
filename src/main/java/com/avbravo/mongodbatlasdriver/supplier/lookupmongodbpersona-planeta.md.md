@@ -316,7 +316,7 @@ db.persona.aggregate(
 ```
 
 ***
-# Referencia de primer nivel
+# Referencia de primer nivel 
 Es invocacion directa a la coleccion padre.
 ## profesion-grupoprofesion
 ```json
