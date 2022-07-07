@@ -87,31 +87,34 @@ public class PersonaSupplier {
 //                }
 //               persona.setCorregimiento(corregimientoList);
             }
-            if (!istListReferecendToProfesion) {
+            
+            
+            
+           if (!istListReferecendToProfesion) {
                 persona.setProfesion(ProfesionSupplier.get(Profesion::new, documentProfesionList, documentGrupoprofesionList));
-            } else {
-                Test.warning(Test.nameOfClassAndMethod() + " No se permite @Referenced List<>");
-                /**
-                 * En nivel 2 no se permiten @Referenced List<Nivel1>
-                 * de una entidad de nivel 1 ya que complica la evaluación
-                 *
-                 */
-
-                /**
-                 * Lista de Referenciados Recorre cada elemento y lo carga en un
-                 * List<Entidad>
-                 * Luego lo asigna al atributo de la entidad superior
-                 */
-//                List<Corregimiento> corregimientoList = new ArrayList<>();
-//                if (documentCorregimientoList.isEmpty() || documentCorregimientoList.size() == 0) {
-//                    Test.warning("No hay registros de pais");
-//                } else {
-//                    documentCorregimientoList.forEach(varDoc -> {
-//                       paisList.add(CorregimientoSupplier.get(Corregimiento::new, varDoc));
-//                    });
-//                }
-//               persona.setCorregimiento(corregimientoList);
-            }
+           } else {
+//                Test.warning(Test.nameOfClassAndMethod() + " No se permite @Referenced List<>");
+//                /**
+//                 * En nivel 2 no se permiten @Referenced List<Nivel1>
+//                 * de una entidad de nivel 1 ya que complica la evaluación
+//                 *
+//                 */
+//
+//                /**
+//                 * Lista de Referenciados Recorre cada elemento y lo carga en un
+//                 * List<Entidad>
+//                 * Luego lo asigna al atributo de la entidad superior
+//                 */
+////                List<Corregimiento> corregimientoList = new ArrayList<>();
+////                if (documentCorregimientoList.isEmpty() || documentCorregimientoList.size() == 0) {
+////                    Test.warning("No hay registros de pais");
+////                } else {
+////                    documentCorregimientoList.forEach(varDoc -> {
+////                       paisList.add(CorregimientoSupplier.get(Corregimiento::new, varDoc));
+////                    });
+////                }
+////               persona.setCorregimiento(corregimientoList);
+           }
 
         } catch (Exception e) {
             Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
@@ -171,31 +174,31 @@ public class PersonaSupplier {
 //                }
 //               persona.setCorregimiento(corregimientoList);
             }
-            if (!istListReferecendToProfesion) {
-                persona.setProfesion(ProfesionSupplier.get(Profesion::new, documentProfesionList, documentGrupoprofesionList));
-            } else {
-                Test.warning(Test.nameOfClassAndMethod() + " No se permite @Referenced List<>");
-                /**
-                 * En nivel 2 no se permiten @Referenced List<Nivel1>
-                 * de una entidad de nivel 1 ya que complica la evaluación
-                 *
-                 */
-
-                /**
-                 * Lista de Referenciados Recorre cada elemento y lo carga en un
-                 * List<Entidad>
-                 * Luego lo asigna al atributo de la entidad superior
-                 */
-//                List<Profesion> profesionList = new ArrayList<>();
-//                if (documentProfesionList.isEmpty() || documentProfesionList.size() == 0) {
-//                    Test.warning("No hay registros de pais");
-//                } else {
-//                    documentProfesionList.forEach(varDoc -> {
-//                       profesionList.add(ProfesionSupplier.get(Profesion::new, varDoc));
-//                    });
-//                }
-//               persona.setCorregimiento(corregimientoList);
-            }
+//            if (!istListReferecendToProfesion) {
+//                persona.setProfesion(ProfesionSupplier.get(Profesion::new, documentProfesionList, documentGrupoprofesionList));
+//            } else {
+//                Test.warning(Test.nameOfClassAndMethod() + " No se permite @Referenced List<>");
+//                /**
+//                 * En nivel 2 no se permiten @Referenced List<Nivel1>
+//                 * de una entidad de nivel 1 ya que complica la evaluación
+//                 *
+//                 */
+//
+//                /**
+//                 * Lista de Referenciados Recorre cada elemento y lo carga en un
+//                 * List<Entidad>
+//                 * Luego lo asigna al atributo de la entidad superior
+//                 */
+////                List<Profesion> profesionList = new ArrayList<>();
+////                if (documentProfesionList.isEmpty() || documentProfesionList.size() == 0) {
+////                    Test.warning("No hay registros de pais");
+////                } else {
+////                    documentProfesionList.forEach(varDoc -> {
+////                       profesionList.add(ProfesionSupplier.get(Profesion::new, varDoc));
+////                    });
+////                }
+////               persona.setCorregimiento(corregimientoList);
+//            }
 
         } catch (Exception e) {
             Test.error(Test.nameOfClassAndMethod() + " " + e.getLocalizedMessage());

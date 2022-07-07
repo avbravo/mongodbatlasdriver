@@ -312,3 +312,96 @@ db.persona.aggregate(
 ]
 ).pretty()
 ```
+
+***
+# Referencia de primer nivel
+Es invocacion directa a la coleccion padre.
+## profesion-grupoprofesion
+```json
+db.profesion.aggregate(
+[  
+   {
+    $lookup:{
+            from:"grupoprofesion",
+            localField:"grupoprofesion.idgrupoprofesion",
+            foreignField:"idgrupoprofesion",
+            as:"grupoprofesion"
+            }
+    }
+]
+).pretty()
+```
+
+
+***
+# Referencia a  Nivel 4 (Rigth)  y a Nivel 1 (Left)
+##planeta -->pais --> provincia --> corregimiento--<Persona> <-- profesion <--grupoprofesion
+
+
+```json
+db.persona.aggregate(
+[
+  {
+    $lookup:{
+            from:"corregimiento",
+            localField:"corregimiento.idcorregimiento",
+            foreignField:"idcorregimiento",
+            as:"corregimiento"
+            }
+    },
+   {
+    $lookup:{
+            from:"provincia",
+            localField:"corregimiento.provincia.idprovincia",
+            foreignField:"idprovincia",
+            as:"provincia"
+            }
+    }
+,
+   {
+    $lookup:{
+            from:"pais",
+            localField:"provincia.pais.idpais",
+            foreignField:"idpais",
+            as:"pais"
+            }
+    }
+,
+{
+    $lookup:{
+            from:"planeta",
+            localField:"pais.planeta.idplaneta",
+            foreignField:"idplaneta",
+            as:"planeta"
+            }
+    }
+,
+{ 
+  $lookup:{
+            from:"oceano",
+            localField:"pais.oceano.idoceano",
+            foreignField:"idoceano",
+            as:"oceano"
+            }
+  }
+,
+{ 
+  $lookup:{
+            from:"profesion",
+            localField:"profesion.idprofesion",
+            foreignField:"idprofesion",
+            as:"profesion"
+            }
+  }
+,
+{ 
+  $lookup:{
+            from:"grupoprofesion",
+            localField:"profesion.grupoprofesion.idgrupoprofesion",
+            foreignField:"idgrupoprofesion",
+            as:"grupoprofesion"
+            }
+  }
+]
+).pretty()
+```

@@ -9,9 +9,11 @@ import com.avbravo.jmoordb.core.util.Test;
 import com.avbravo.jmoordb.core.lookup.enumerations.LookupSupplierLevel;
 import com.avbravo.mongodbatlasdriver.model.Corregimiento;
 import com.avbravo.mongodbatlasdriver.model.Persona;
+import com.avbravo.mongodbatlasdriver.model.Profesion;
 import com.avbravo.mongodbatlasdriver.repository.PersonaRepository;
 import com.avbravo.mongodbatlasdriver.supplier.PersonaSupplier;
 import com.avbravo.mongodbatlasdriver.supplier.lookup.CorregimientoLookupSupplier;
+import com.avbravo.mongodbatlasdriver.supplier.lookup.ProfesionLookupSupplier;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -148,7 +150,52 @@ public class PersonaRepositoryImpl implements PersonaRepository {
             }
 
            
+/**
+ * Profesion
+ */
+Referenced profesionReferenced = new Referenced() {
+                @Override
+                public String from() {
+                    return "profesion";
+                }
 
+                @Override
+                public String localField() {
+                    return "profesion.idprofesion";
+                }
+
+                @Override
+                public String foreignField() {
+                    return "idprofesion";
+                }
+
+                @Override
+                public String as() {
+                    return "profesion";
+                }
+
+                @Override
+                public boolean lazy() {
+                    return false;
+                }
+
+                @Override
+                public Class<? extends Annotation> annotationType() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+            };
+            
+             List<Bson> pipelineProfesion= ProfesionLookupSupplier.get(Profesion::new, profesionReferenced, "profesion",levelLocal,false);
+
+            if (pipelineProfesion.isEmpty() || pipelineProfesion.size() == 0) {
+                Test.msg("pipeLineProfesion.isEmpty()");
+            } else {
+                pipelineProfesion.forEach(b -> {
+                    lookup.add(b);
+                });
+            }
+            
+            
             /**
              * Ejecuta la consulta
              */
